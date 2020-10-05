@@ -2,27 +2,27 @@ package sala;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Random;
 
 import cartas.*;
 import jugador.Jugador;
 
 public class Sala {
 	private LinkedList<Jugador> jugadores;
-	private LinkedList<Carta> mazo;
+	private Mazo mazo;
 	private Jugador admin;
 	private int simbParaGanar;
 
 	public Sala(Jugador admin, int simbParaGanar) {
 		jugadores = new LinkedList<Jugador>();
 		jugadores.add(admin);
+		this.admin = admin;
 		this.simbParaGanar = simbParaGanar;
 	}
 
 	public void agregarJugador(Jugador nuevo) {
 		jugadores.add(nuevo);
 	}
-	
+
 	public void listarJugadores() {
 		int i = 1;
 		for (Jugador jugador : jugadores) {
@@ -45,6 +45,7 @@ public class Sala {
 	public void jugarRonda() {
 		int i = 0;
 		Jugador jugador;
+		mazo.sacarCartaAlAzar();
 		this.iniciarCantDescartadas();
 		this.repartir();
 		while (mazo.size() > 0 && this.jugadoresEnRonda() > 1) {
@@ -61,10 +62,10 @@ public class Sala {
 
 	public void repartir() {
 		for (Jugador jugador : jugadores) {
-			jugador.setCarta1(mazo.pop());
+			jugador.setCarta(mazo.getCarta());
 		}
 	}
-	
+
 	public void iniciarCantDescartadas() {
 		for (Jugador jugador : jugadores) {
 			jugador.setCantDescartadas(0);
@@ -83,9 +84,9 @@ public class Sala {
 	public Jugador buscarGanadorRonda() {
 		Jugador ganador = jugadores.getFirst();
 		for (Jugador jugador : jugadores) {
-			if (jugador.getCarta1().getFuerza() > ganador.getCarta1().getFuerza())
+			if (jugador.getCarta().getFuerza() > ganador.getCarta().getFuerza())
 				ganador = jugador;
-			else if (jugador.getCarta1().getFuerza() == ganador.getCarta1().getFuerza())
+			else if (jugador.getCarta().getFuerza() == ganador.getCarta().getFuerza())
 				if (jugador.getCantDescartadas() > ganador.getCantDescartadas())
 					ganador = jugador;
 		}
@@ -94,43 +95,14 @@ public class Sala {
 
 	public void generarMazo() {
 		for (Iterator<Jugador> iterator = jugadores.iterator(); iterator.hasNext();) {
-			iterator.next().setCarta1(null);
+			iterator.next().setCarta(null);
 		}
-		mazo = new LinkedList<Carta>();
-		int i;
-		for (i = 0; i < 5; i++)
-			mazo.add(new Guardia());
-		for (i = 0; i < 2; i++)
-			mazo.add(new Sacerdote());
-		for (i = 0; i < 2; i++)
-			mazo.add(new Baron());
-		for (i = 0; i < 2; i++)
-			mazo.add(new Mucama());
-		for (i = 0; i < 2; i++)
-			mazo.add(new Principe());
-		mazo.add(new Rey());
-		mazo.add(new Condesa());
-		mazo.add(new Princesa());
-
-		System.out.println(mazo.size());
-		Random rand = new Random(System.currentTimeMillis());
-		Carta carta;
-		for (i = 0; i < 16; i++) {
-			carta = mazo.remove((rand.nextInt(16)));
-			mazo.add(rand.nextInt(16), carta);
-		}
-		mazo.remove(rand.nextInt(16));
+		mazo = new Mazo();
+		mazo.mezclar();
 	}
 
-//	public void listarMazo() {
-//		int i = 0;
-//		for (Iterator<Carta> iterator = mazo.iterator(); iterator.hasNext();) {
-//			System.out.println(i++ + " - " + iterator.next().getNombre());
-//		}
-//	}
-
 	public Carta getCarta() {
-		return mazo.pop();
+		return mazo.getCarta();
 	}
 
 	public boolean buscarGanador() {
@@ -156,7 +128,6 @@ public class Sala {
 
 	public void sacarDeRonda(int indice) {
 		jugadores.get(indice).setJuegaRonda(false);
-		;
 	}
 
 	public void sacarDeRonda(Jugador jugador) {

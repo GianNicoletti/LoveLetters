@@ -13,7 +13,7 @@ public class Jugador {
 	private boolean host;
 	private boolean juegaRonda;
 	private boolean protegido;
-	private Carta carta1;
+	private Carta carta;
 
 	public Jugador(String nombre) {
 		this.nombre = nombre;
@@ -40,21 +40,21 @@ public class Jugador {
 	public void jugar() {
 		Carta carta2;
 		carta2 = this.robar();
-		if (carta1.getNombre() == "Condesa")
-			carta1.descartar(sala);
+		if (carta.getNombre() == "Condesa")
+			carta.descartar(sala);
 		else if (carta2.getNombre() == "Condesa")
 			carta2.descartar(sala);
 		else {
 			System.out.println("Elige una opcion: ");
-			System.out.println("1 - " + carta1.getNombre());
+			System.out.println("1 - " + carta.getNombre());
 			System.out.println("2 - " + carta2.getNombre());
 			System.out.println("3 - Rendirse");
 			System.out.print("--> ");
 			try (Scanner teclado = new Scanner(System.in)) {
 				switch (teclado.nextLine()) {
 				case "1":
-					carta1.descartar(sala);
-					carta1 = carta2;
+					carta.descartar(sala);
+					carta = carta2;
 					cantDescartadas++;
 					break;
 				case "2":
@@ -69,15 +69,15 @@ public class Jugador {
 	}
 
 	public void intercambiarMano(Jugador otro) {
-		Carta cartaOtro = otro.carta1;
+		Carta cartaOtro = otro.carta;
 		cartaOtro.setJugador(this);
-		otro.carta1 = this.carta1;
-		otro.carta1.setJugador(otro);
-		this.carta1 = cartaOtro;
+		otro.carta = this.carta;
+		otro.carta.setJugador(otro);
+		this.carta = cartaOtro;
 	}
 
 	public void cambiarCarta() {
-		if (carta1.getNombre().equals("Princesa")) {
+		if (carta.getNombre().equals("Princesa")) {
 			sala.sacarDeRonda(this);
 		} else
 			this.robar();
@@ -94,7 +94,7 @@ public class Jugador {
 	}
 
 	public boolean tiene(String nombreCarta) {
-		return nombreCarta == carta1.getNombre();
+		return nombreCarta == carta.getNombre();
 	}
 
 	public void incPuntaje() {
@@ -129,13 +129,13 @@ public class Jugador {
 		return nombre;
 	}
 
-	public Carta getCarta1() {
-		return carta1;
+	public Carta getCarta() {
+		return carta;
 	}
 
-	public void setCarta1(Carta carta1) {
-		this.carta1 = carta1;
-		carta1.setJugador(this);
+	public void setCarta(Carta carta) {
+		this.carta = carta;
+		carta.setJugador(this);
 	}
 
 	public boolean juegaRonda() {

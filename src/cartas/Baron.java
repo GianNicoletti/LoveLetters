@@ -26,7 +26,7 @@ public class Baron extends Carta {
 			i = Integer.valueOf(teclado.nextLine());
 		}
 		jugador = sala.getJugadorPorIndice(i);
-		if (jugador.getCarta1().getFuerza() < this.jugador.getCarta1().getFuerza())
+		if (jugador.getCarta().getFuerza() < this.jugador.getCarta().getFuerza())
 			sala.sacarDeRonda(i);
 		else
 			sala.sacarDeRonda(this.jugador);

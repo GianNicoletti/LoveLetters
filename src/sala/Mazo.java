@@ -16,7 +16,7 @@ import cartas.Sacerdote;
 public class Mazo {
 
 	private LinkedList<Carta> mazo;
-	
+
 	public Mazo() {
 		mazo = new LinkedList<Carta>();
 		int i;
@@ -34,7 +34,7 @@ public class Mazo {
 		mazo.add(new Condesa());
 		mazo.add(new Princesa());
 	}
-	
+
 	public void mezclar() {
 		Random rand = new Random(System.currentTimeMillis());
 		Carta carta;
@@ -42,6 +42,18 @@ public class Mazo {
 			carta = mazo.remove((rand.nextInt(16)));
 			mazo.add(rand.nextInt(16), carta);
 		}
+	}
+
+	public void sacarCartaAlAzar() {
+		Random rand = new Random(System.currentTimeMillis());
 		mazo.remove(rand.nextInt(16));
+	}
+
+	public Carta getCarta() {
+		return mazo.pop();
+	}
+
+	public int size() {
+		return mazo.size();
 	}
 }

@@ -29,6 +29,6 @@ public class Sacerdote extends Carta {
 				jugador = sala.getJugadorPorIndice(i);
 			} while (jugador.equals(this.jugador));
 		}
-		System.out.println("La carta de " + jugador.getNombre() + " es " + jugador.getCarta1().getNombre());
+		System.out.println("La carta de " + jugador.getNombre() + " es " + jugador.getCarta().getNombre());
 	}
 }
