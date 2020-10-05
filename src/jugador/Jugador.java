@@ -101,6 +101,7 @@ public class Jugador {
 		this.puntaje++;
 	}
 
+	//Getters y Setters
 	public Sala getSala() {
 		return sala;
 	}
