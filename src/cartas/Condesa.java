@@ -1,7 +1,6 @@
 package cartas;
 
 import jugador.Jugador;
-import sala.Sala;
 
 public class Condesa extends Carta {
 
@@ -10,12 +9,7 @@ public class Condesa extends Carta {
 	}
 
 	@Override
-	public void descartar(Sala sala) {
-
-	}
-
-	@Override
-	public void setJugador(Jugador jugador) {
+	public void descartar(Jugador jugador) {
 
 	}
 

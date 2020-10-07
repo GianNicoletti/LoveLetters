@@ -126,14 +126,6 @@ public class Sala {
 		return jugadores.get(i);
 	}
 
-	public void sacarDeRonda(int indice) {
-		jugadores.get(indice).setJuegaRonda(false);
-	}
-
-	public void sacarDeRonda(Jugador jugador) {
-		jugadores.get(jugadores.indexOf(jugador)).setJuegaRonda(false);
-	}
-
 	public void eliminar(Jugador jugador) {
 		jugadores.remove(jugador);
 	}

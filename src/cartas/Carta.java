@@ -1,7 +1,6 @@
 package cartas;
 
 import jugador.Jugador;
-import sala.Sala;
 
 public abstract class Carta {
 	private String nombre;
@@ -12,8 +11,7 @@ public abstract class Carta {
 		this.fuerza = fuerza;
 	}
 	
-	public abstract void setJugador(Jugador jugador);
-	public abstract void descartar(Sala sala);
+	public abstract void descartar(Jugador jugador);
 
 	public String getNombre() {
 		return nombre;

@@ -2,7 +2,6 @@ package sala;
 
 import java.util.LinkedList;
 import java.util.Random;
-
 import cartas.Baron;
 import cartas.Carta;
 import cartas.Condesa;

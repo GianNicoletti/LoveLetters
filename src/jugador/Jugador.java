@@ -30,7 +30,6 @@ public class Jugador {
 			} while (num < 0 || num > 99);
 		}
 		return new Sala(this, num);
-
 	}
 
 	public void unirseASala(Sala sala) {
@@ -41,9 +40,9 @@ public class Jugador {
 		Carta carta2;
 		carta2 = this.robar();
 		if (carta.getNombre() == "Condesa")
-			carta.descartar(sala);
+			carta.descartar(this);
 		else if (carta2.getNombre() == "Condesa")
-			carta2.descartar(sala);
+			carta2.descartar(this);
 		else {
 			System.out.println("Elige una opcion: ");
 			System.out.println("1 - " + carta.getNombre());
@@ -53,12 +52,12 @@ public class Jugador {
 			try (Scanner teclado = new Scanner(System.in)) {
 				switch (teclado.nextLine()) {
 				case "1":
-					carta.descartar(sala);
+					carta.descartar(this);
 					carta = carta2;
 					cantDescartadas++;
 					break;
 				case "2":
-					carta2.descartar(sala);
+					carta2.descartar(this);
 					cantDescartadas++;
 					break;
 				case "3":
@@ -68,25 +67,36 @@ public class Jugador {
 		}
 	}
 
+	public Jugador seleccionarOtroJugador() {
+		Jugador otro;
+		System.out.println("Elige un jugador (escribe el numero del jugador): ");
+		try (Scanner teclado = new Scanner(System.in)) {
+			sala.listarJugadores();
+			int i = Integer.valueOf(teclado.nextLine());
+			otro = sala.getJugadorPorIndice(i);
+			return otro;
+		}
+	}
+	
+	public void salirDeRonda() {
+		juegaRonda = false;
+	}
+	
 	public void intercambiarMano(Jugador otro) {
 		Carta cartaOtro = otro.carta;
-		cartaOtro.setJugador(this);
 		otro.carta = this.carta;
-		otro.carta.setJugador(otro);
 		this.carta = cartaOtro;
 	}
 
 	public void cambiarCarta() {
 		if (carta.getNombre().equals("Princesa")) {
-			sala.sacarDeRonda(this);
+			carta.descartar(this);
 		} else
 			this.robar();
 	}
 
 	public Carta robar() {
-		Carta carta = sala.getCarta();
-		carta.setJugador(this);
-		return carta;
+		return sala.getCarta();
 	}
 
 	public void rendirse() {
@@ -136,15 +146,10 @@ public class Jugador {
 
 	public void setCarta(Carta carta) {
 		this.carta = carta;
-		carta.setJugador(this);
 	}
 
 	public boolean juegaRonda() {
 		return juegaRonda;
-	}
-
-	public void setJuegaRonda(boolean juegaRonda) {
-		this.juegaRonda = juegaRonda;
 	}
 
 	public boolean isProtegido() {
