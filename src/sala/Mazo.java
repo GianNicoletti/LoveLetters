@@ -2,15 +2,8 @@ package sala;
 
 import java.util.LinkedList;
 import java.util.Random;
-import cartas.Baron;
-import cartas.Carta;
-import cartas.Condesa;
-import cartas.Guardia;
-import cartas.Mucama;
-import cartas.Princesa;
-import cartas.Principe;
-import cartas.Rey;
-import cartas.Sacerdote;
+import java.util.Collections;
+import cartas.*;
 
 public class Mazo {
 
@@ -35,12 +28,16 @@ public class Mazo {
 	}
 
 	public void mezclar() {
-		Random rand = new Random(System.currentTimeMillis());
-		Carta carta;
-		for (int i = 0; i < 16; i++) {
-			carta = mazo.remove((rand.nextInt(16)));
-			mazo.add(rand.nextInt(16), carta);
-		}
+
+//		Random rand = new Random(System.currentTimeMillis());
+//		Carta carta;
+//		for (int i = 0; i < 16; i++) {
+//			carta = mazo.remove((rand.nextInt(16)));
+//			mazo.add(rand.nextInt(16), carta);
+//		}
+
+		Collections.shuffle(mazo);
+
 	}
 
 	public void sacarCartaAlAzar() {
