@@ -5,7 +5,7 @@ import jugador.Jugador;
 public class Princesa extends Carta {
 
 	public Princesa() {
-		super("Princesa", 7);
+		super("Princesa", 8);
 	}
 
 	@Override

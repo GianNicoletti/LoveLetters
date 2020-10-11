@@ -34,14 +34,17 @@ public class Jugador {
 
 	public void unirseASala(Sala sala) {
 		sala.agregarJugador(this);
+		this.sala=sala;
 	}
 
 	public void jugar() {
+		if(protegido)
+			protegido=false;
 		Carta carta2;
 		carta2 = this.robar();
-		if (carta.getNombre() == "Condesa")
+		if (carta.getNombre() == "Condesa" && (carta2.getNombre() == "Principe" || carta2.getNombre() == "Rey"))
 			carta.descartar(this);
-		else if (carta2.getNombre() == "Condesa")
+		else if (carta2.getNombre() == "Condesa" && (carta.getNombre() == "Principe" || carta.getNombre() == "Rey"))
 			carta2.descartar(this);
 		else {
 			System.out.println("Elige una opcion: ");
@@ -77,11 +80,11 @@ public class Jugador {
 			return otro;
 		}
 	}
-	
+
 	public void salirDeRonda() {
 		juegaRonda = false;
 	}
-	
+
 	public void intercambiarMano(Jugador otro) {
 		Carta cartaOtro = otro.carta;
 		otro.carta = this.carta;
@@ -111,7 +114,7 @@ public class Jugador {
 		this.puntaje++;
 	}
 
-	//Getters y Setters
+	// Getters y Setters
 	public Sala getSala() {
 		return sala;
 	}

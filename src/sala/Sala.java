@@ -16,6 +16,7 @@ public class Sala {
 		jugadores = new LinkedList<Jugador>();
 		jugadores.add(admin);
 		this.admin = admin;
+		admin.setSala(this);
 		this.simbParaGanar = simbParaGanar;
 	}
 
