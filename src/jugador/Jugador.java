@@ -34,19 +34,23 @@ public class Jugador {
 
 	public void unirseASala(Sala sala) {
 		sala.agregarJugador(this);
-		this.sala=sala;
+		this.sala = sala;
 	}
 
 	public void jugar() {
-		if(protegido)
-			protegido=false;
+		if (protegido)
+			protegido = false;
 		Carta carta2;
 		carta2 = this.robar();
-		if (carta.getNombre() == "Condesa" && (carta2.getNombre() == "Principe" || carta2.getNombre() == "Rey"))
-			carta.descartar(this);
-		else if (carta2.getNombre() == "Condesa" && (carta.getNombre() == "Principe" || carta.getNombre() == "Rey"))
+		if (carta.getNombre() == "Condesa" && (carta2.getNombre() == "Principe" || carta2.getNombre() == "Rey")) {
+			Carta aux = carta;
+			carta = carta2;
+			aux.descartar(this);
+			cantDescartadas++;
+		} else if (carta2.getNombre() == "Condesa" && (carta.getNombre() == "Principe" || carta.getNombre() == "Rey")) {
 			carta2.descartar(this);
-		else {
+			cantDescartadas++;
+		} else {
 			System.out.println("Elige una opcion: ");
 			System.out.println("1 - " + carta.getNombre());
 			System.out.println("2 - " + carta2.getNombre());
@@ -55,8 +59,9 @@ public class Jugador {
 			try (Scanner teclado = new Scanner(System.in)) {
 				switch (teclado.nextLine()) {
 				case "1":
-					carta.descartar(this);
+					Carta aux = carta;
 					carta = carta2;
+					aux.descartar(this);
 					cantDescartadas++;
 					break;
 				case "2":
@@ -92,10 +97,10 @@ public class Jugador {
 	}
 
 	public void cambiarCarta() {
-		if (carta.getNombre().equals("Princesa")) {
+		if (carta.getNombre() == "Princesa") {
 			carta.descartar(this);
-		} else
-			this.robar();
+		}
+		carta=this.robar();
 	}
 
 	public Carta robar() {

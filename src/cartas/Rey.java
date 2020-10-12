@@ -11,6 +11,10 @@ public class Rey extends Carta {
 	@Override
 	public void descartar(Jugador jugador) {
 		Jugador otro = jugador.seleccionarOtroJugador();
+		hacerIntercambio(jugador, otro);
+	}
+
+	public void hacerIntercambio(Jugador jugador, Jugador otro) {
 		jugador.intercambiarMano(otro);
 	}
 

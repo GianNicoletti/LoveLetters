@@ -108,7 +108,63 @@ class LoveLetterTests {
 		assertEquals(player2.juegaRonda(), true);
 	}
 	
+	@Test
+	void jugarSacerdoteTest() {
+		Jugador player1 = new Jugador("Carlos");
+		Jugador player2 = new Jugador("Roberto");
+		player1.setCarta(new Sacerdote());
+		player2.setCarta(new Princesa());
+		assertEquals(((Sacerdote)player1.getCarta()).obtenerCarta(player2),"Princesa");
+		player2.setCarta(new Guardia());
+		assertEquals(((Sacerdote)player1.getCarta()).obtenerCarta(player2),"Guardia");
+	}
 	
+	@Test
+	void jugarPrincipeConPrincesaTest(){
+		Jugador player1 = new Jugador("Carlos");
+		Jugador player2 = new Jugador("Roberto");
+		Sala sala=new Sala(player1,5);
+		player2.unirseASala(sala);
+		sala.generarMazo();
+		player1.setCarta(new Principe());
+		player2.setCarta(new Princesa());
+		Carta cartaPlayer2=player2.getCarta();
+		assertEquals(player2.juegaRonda(),true);
+		((Principe)player1.getCarta()).cambiarCarta(player2);
+		assertEquals(player2.juegaRonda(),false);
+		assertEquals(cartaPlayer2!=player2.getCarta(),true);
+	}
 	
+	@Test
+	void jugarPrincipeSinPrincesaTest(){
+		Jugador player1 = new Jugador("Carlos");
+		Jugador player2 = new Jugador("Roberto");
+		Sala sala=new Sala(player1,5);
+		player2.unirseASala(sala);
+		sala.generarMazo();
+		player1.setCarta(new Principe());
+		player2.setCarta(new Mucama());
+		Carta cartaPlayer2=player2.getCarta();
+		assertEquals(player2.juegaRonda(),true);
+		((Principe)player1.getCarta()).cambiarCarta(player2);
+		assertEquals(player2.juegaRonda(),true);
+		assertEquals(cartaPlayer2!=player2.getCarta(),true);
+	}
+	
+	@Test
+	void jugarReyTest(){
+		Jugador player1 = new Jugador("Carlos");
+		Jugador player2 = new Jugador("Roberto");
+		Sala sala=new Sala(player1,5);
+		player2.unirseASala(sala);
+		sala.generarMazo();
+		player1.setCarta(new Guardia());
+		player2.setCarta(new Princesa());
+		Carta cartaPlayer1=player1.getCarta();
+		Carta cartaPlayer2=player2.getCarta();
+		new Rey().hacerIntercambio(player1, player2);
+		assertEquals(cartaPlayer1==player2.getCarta(),true);
+		assertEquals(cartaPlayer2==player1.getCarta(),true);
+	}
 	
 }
