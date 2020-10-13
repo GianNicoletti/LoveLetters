@@ -12,6 +12,8 @@ import sala.*;
 
 class LoveLetterTests {
 
+	// TEST DE MECANICAS DE LA SALA
+	
 	@Test
 	void cantidadDeCartasEnMazoTest() {
 		Mazo mazo = new Mazo();
@@ -37,7 +39,50 @@ class LoveLetterTests {
 		assertEquals(conteo.get("Condesa"), 1);
 		assertEquals(conteo.get("Princesa"), 1);
 	}
+	
+	@Test
+	void todosLosJugadoresSeUnenCorrectamente() {
+		Jugador j1 = new Jugador("Carlos");
+		Jugador j2 = new Jugador("Roberto");
+		Jugador j3 = new Jugador("Samanta");
+		
+		Sala sala = new Sala ( j1 , 3);	
+		j2.unirseASala(sala);
+		j3.unirseASala(sala);
+		
+		assertEquals( 3, sala.jugadoresEnRonda());		
+		
+	}
+	
+	@Test
+	void ganadorRondaTodosDescalificados() {
+		Jugador j1 = new Jugador("Carlos");
+		Jugador j2 = new Jugador("Roberto");
+		Jugador j3 = new Jugador("Samanta");
+		
+		Sala sala = new Sala ( j1 , 3);	
+		j2.unirseASala(sala);
+		j3.unirseASala(sala);
+		
+		j1.setCarta(new Guardia());
+		j2.setCarta(new Principe());
+		j3.setCarta(new Princesa());
+		/* La princesa ganaria por un mayor valor de carta
+		 * pero el jugador esta descalificado.
+		 */
+		
+		j1.salirDeRonda();
+		j3.salirDeRonda();
+		
+		Jugador ganador = sala.buscarGanadorRonda();
+		
+		assertEquals( j2.getNombre(), ganador.getNombre());		
+		
+	}
+	
 
+	// TEST PARA JUGAR CARTAS DE DIFERENTE TIPO
+	
 	@Test
 	void jugarPrincesaTest() {
 		Jugador player = new Jugador("Carlos");
