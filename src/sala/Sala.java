@@ -83,13 +83,28 @@ public class Sala {
 	}
 
 	public Jugador buscarGanadorRonda() {
+
 		Jugador ganador = jugadores.getFirst();
+
 		for (Jugador jugador : jugadores) {
-			if (jugador.getCarta().getFuerza() > ganador.getCarta().getFuerza())
-				ganador = jugador;
-			else if (jugador.getCarta().getFuerza() == ganador.getCarta().getFuerza())
-				if (jugador.getCantDescartadas() > ganador.getCantDescartadas())
+			/*
+			 * agrego la validacion de que este jugador no este descalificado, ya que si fue
+			 * descaliicado no deberia si quiera compararse contra el actual ganador.
+			 */
+			if (jugador.juegaRonda()) {
+
+				/*
+				 * Es posible que el jugador que elegí como ganador inicialmente este
+				 * descalificado por lo que pregunto esto para evitar un posible bug, donde el
+				 * primero sea el ganador pero haya sido descalificado.
+				 */
+				if (jugador.getCarta().getFuerza() > ganador.getCarta().getFuerza() || !ganador.juegaRonda())
 					ganador = jugador;
+				else if (jugador.getCarta().getFuerza() == ganador.getCarta().getFuerza())
+					if (jugador.getCantDescartadas() > ganador.getCantDescartadas())
+						ganador = jugador;
+			}
+
 		}
 		return ganador;
 	}
