@@ -53,7 +53,7 @@ class LoveLetterTests {
 		assertEquals(3, sala.jugadoresEnRonda());
 
 	}
-	
+
 	@Test
 	void ganadorRonda() {
 		Jugador j1 = new Jugador("Carlos");
@@ -70,7 +70,6 @@ class LoveLetterTests {
 		/*
 		 * La princesa gana por un mayor valor de carta.
 		 */
-
 
 		Jugador ganador = sala.buscarGanadorRonda();
 
@@ -113,14 +112,15 @@ class LoveLetterTests {
 		j2.unirseASala(sala);
 		j3.unirseASala(sala);
 
-		j1.setCarta(new Guardia());
+		j1.setCarta(new Mucama());
 		j2.setCarta(new Guardia());
-		j3.setCarta(new Guardia());
+		j3.setCarta(new Mucama());
 		/*
-		 * Todos tienen carta con igual fuerza, gana el que descartó mas
+		 * Se define entre el j1 y j2 porque tienen la misma carta, gana el que mas
+		 * descartó
 		 */
 		j1.setCantDescartadas(4);
-		j2.setCantDescartadas(4);
+		j2.setCantDescartadas(8);
 		j3.setCantDescartadas(6);
 		Jugador ganador = sala.buscarGanadorRonda();
 
