@@ -127,6 +127,40 @@ class LoveLetterTests {
 		assertEquals(j3.getNombre(), ganador.getNombre());
 
 	}
+	
+	@Test
+	void ganadorNoHay() {
+		Jugador j1 = new Jugador("Carlos");
+		Jugador j2 = new Jugador("Roberto");
+		Jugador j3 = new Jugador("Samanta");
+
+		Sala sala = new Sala(j1, 5);
+		j2.unirseASala(sala);
+		j3.unirseASala(sala);
+
+		j1.setPuntaje(2);
+		j2.setPuntaje(3);
+		j3.setPuntaje(4);
+		assertEquals(sala.buscarGanador(), false);
+
+	}
+	
+	@Test
+	void ganadorHay() {
+		Jugador j1 = new Jugador("Carlos");
+		Jugador j2 = new Jugador("Roberto");
+		Jugador j3 = new Jugador("Samanta");
+
+		Sala sala = new Sala(j1, 5);
+		j2.unirseASala(sala);
+		j3.unirseASala(sala);
+
+		j1.setPuntaje(2);
+		j2.setPuntaje(5);
+		j3.setPuntaje(4);
+		assertEquals(sala.buscarGanador(), true);
+
+	}
 
 	// TEST PARA JUGAR CARTAS DE DIFERENTE TIPO
 
