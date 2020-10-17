@@ -70,6 +70,7 @@ public class Jugador {
 					break;
 				case "3":
 					this.rendirse();
+					break;
 				}
 			}
 		}
