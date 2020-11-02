@@ -101,7 +101,7 @@ public class Jugador {
 		if (carta.getNombre() == "Princesa") {
 			carta.descartar(this);
 		}
-		carta=this.robar();
+		carta = this.robar();
 	}
 
 	public Carta robar() {
