@@ -3,6 +3,7 @@ package sala;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import UI.MainWindow;
 import cartas.*;
 import jugador.Jugador;
 
@@ -11,6 +12,7 @@ public class Sala {
 	private Mazo mazo;
 	private Jugador admin;
 	private int simbParaGanar;
+	private MainWindow window;
 
 	public Sala(Jugador admin, int simbParaGanar) {
 		jugadores = new LinkedList<Jugador>();
@@ -22,6 +24,7 @@ public class Sala {
 
 	public void agregarJugador(Jugador nuevo) {
 		jugadores.add(nuevo);
+		nuevo.setSala(this);
 	}
 
 	public void listarJugadores() {
@@ -32,11 +35,18 @@ public class Sala {
 		}
 	}
 
+	public LinkedList<Jugador> getJugadores() {
+		return jugadores;
+	}
+
 	public void empezarJuego() {
 		if (jugadores.size() < 2 || jugadores.size() > 4) {
 			System.out.println("La cantidad de jugadores debe estar entre 2 y 4");
 			return;
 		}
+		System.out.println("arranca");
+		window = new MainWindow(this);
+		window.setVisible(true);
 		while (!this.buscarGanador() && jugadores.size() > 1) {
 			this.generarMazo();
 			this.jugarRonda();
@@ -49,12 +59,15 @@ public class Sala {
 		mazo.sacarCartaAlAzar();
 		this.iniciarCantDescartadas();
 		this.repartir();
+		window.actualizar();
 		while (mazo.size() > 0 && this.jugadoresEnRonda() > 1) {
 			if (i >= jugadores.size())
 				i = 0;
 			jugador = jugadores.get(i);
-			if (jugador.juegaRonda())
+			if (jugador.juegaRonda()) {
 				jugador.jugar();
+				window.actualizar();
+			}
 			i++;
 		}
 		jugador = this.buscarGanadorRonda();
@@ -144,5 +157,9 @@ public class Sala {
 
 	public void eliminar(Jugador jugador) {
 		jugadores.remove(jugador);
+	}
+
+	public int getSimbParaGanar() {
+		return simbParaGanar;
 	}
 }

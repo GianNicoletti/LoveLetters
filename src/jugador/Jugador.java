@@ -21,6 +21,7 @@ public class Jugador {
 		protegido = false;
 	}
 
+
 	public Sala crearSala() {
 		int num;
 		try (Scanner teclado = new Scanner(System.in)) {
@@ -81,7 +82,7 @@ public class Jugador {
 		System.out.println("Elige un jugador (escribe el numero del jugador): ");
 		try (Scanner teclado = new Scanner(System.in)) {
 			sala.listarJugadores();
-			int i = Integer.valueOf(teclado.nextLine());
+			int i = teclado.nextInt();
 			otro = sala.getJugadorPorIndice(i);
 			return otro;
 		}
