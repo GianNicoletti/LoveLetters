@@ -2,6 +2,7 @@ package UI;
 
 import javax.swing.JPanel;
 
+import cartas.Carta;
 import jugador.Jugador;
 
 import java.awt.Graphics;
@@ -41,20 +42,32 @@ public class DatosJugador extends JPanel {
 		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
 		// HEIGHT);
 		g2.drawString(jugador.getPuntaje() + " Puntos", 84, 58);
-		g2.drawImage(carta1, null, 90, 90);
-		g2.drawImage(carta2, null, 190, 190);
+		g2.drawImage(carta1, null, 5, 90);
+		g2.drawImage(carta2, null, 90, 90);
 	}
 
-	public void actualizar() {
+	public void actualizar(Jugador ac) {
 		if (jugador == null)
 			return;
 		try {
-			this.carta1 = ImageIO.read(new File(jugador.getCarta().getImagePath()));
-			this.carta2 = ImageIO.read(new File("Assets/imgs/" + "Guardia" + ".png")); //falta enviar bien la 2da carta
+			if (ac == jugador) {
+				this.carta1 = ImageIO.read(new File(jugador.getCarta().getImagePath()));
+			} else {
+				this.carta1 = ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png"));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		carta2=null;
 		this.repaint();
+	}
+
+	public void actualizarCarta2(Carta carta2) {
+		try {
+			this.carta2 = ImageIO.read(new File(carta2.getImagePath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

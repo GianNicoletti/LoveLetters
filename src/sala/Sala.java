@@ -59,14 +59,14 @@ public class Sala {
 		mazo.sacarCartaAlAzar();
 		this.iniciarCantDescartadas();
 		this.repartir();
-		window.actualizar();
 		while (mazo.size() > 0 && this.jugadoresEnRonda() > 1) {
+			window.actualizar(i);
 			if (i >= jugadores.size())
 				i = 0;
 			jugador = jugadores.get(i);
 			if (jugador.juegaRonda()) {
-				jugador.jugar();
-				window.actualizar();
+				jugador.jugar(window);
+				window.actualizar(i);
 			}
 			i++;
 		}

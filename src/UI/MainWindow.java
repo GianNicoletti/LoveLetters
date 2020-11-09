@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import cartas.Carta;
 import jugador.Jugador;
 import sala.Sala;
 import javax.swing.JLabel;
@@ -17,6 +18,7 @@ public class MainWindow extends JFrame {
 	private JPanel contentPane;
 	private Sala sala;
 	private DatosJugador[] datosJugadores;
+	private int jugadorActual;
 
 	/**
 	 * Launch the application.
@@ -54,15 +56,20 @@ public class MainWindow extends JFrame {
 		datosJugadores = new DatosJugador[sala.getJugadores().size()];
 		for (int i = 0; i < datosJugadores.length; i++) {
 			datosJugadores[i] = new DatosJugador(sala.getJugadores().get(i));
-			datosJugadores[i].setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 268, 196);
+			datosJugadores[i].setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 300, 250);
 			contentPane.add(datosJugadores[i]);
 		}
 
 	}
 
-	public void actualizar() {
+	public void actualizar(int actual) {
+		this.jugadorActual = actual;
 		for (DatosJugador dj : datosJugadores)
-			dj.actualizar();
+			dj.actualizar(sala.getJugadorPorIndice(actual));
+	}
+
+	public void actualizarActual(Carta carta2) {
+		datosJugadores[jugadorActual].actualizarCarta2(carta2);
 	}
 
 }

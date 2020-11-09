@@ -2,6 +2,7 @@ package jugador;
 
 import java.util.Scanner;
 
+import UI.MainWindow;
 import cartas.Carta;
 import sala.Sala;
 
@@ -38,11 +39,12 @@ public class Jugador {
 		this.sala = sala;
 	}
 
-	public void jugar() {
+	public void jugar(MainWindow window) {
 		if (protegido)
 			protegido = false;
 		Carta carta2;
 		carta2 = this.robar();
+		window.actualizarActual(carta2);
 		if (carta.getNombre() == "Condesa" && (carta2.getNombre() == "Principe" || carta2.getNombre() == "Rey")) {
 			Carta aux = carta;
 			carta = carta2;
