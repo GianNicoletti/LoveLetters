@@ -22,7 +22,6 @@ public class Jugador {
 		protegido = false;
 	}
 
-
 	public Sala crearSala() {
 		int num;
 		try (Scanner teclado = new Scanner(System.in)) {
@@ -59,22 +58,23 @@ public class Jugador {
 			System.out.println("2 - " + carta2.getNombre());
 			System.out.println("3 - Rendirse");
 			System.out.print("--> ");
-			try (Scanner teclado = new Scanner(System.in)) {
-				switch (teclado.nextLine()) {
-				case "1":
-					Carta aux = carta;
-					carta = carta2;
-					aux.descartar(this);
-					cantDescartadas++;
-					break;
-				case "2":
-					carta2.descartar(this);
-					cantDescartadas++;
-					break;
-				case "3":
-					this.rendirse();
-					break;
-				}
+			int cartaElegida=window.elegirCarta();
+			switch (cartaElegida) {
+			case 1:
+				System.out.println("elijo 1");
+				Carta aux = carta;
+				carta = carta2;
+				aux.descartar(this);
+				cantDescartadas++;
+				break;
+			case 2:
+				System.out.println("elijo 2");
+				carta2.descartar(this);
+				cantDescartadas++;
+				break;
+			case 3:
+				this.rendirse();
+				break;
 			}
 		}
 	}

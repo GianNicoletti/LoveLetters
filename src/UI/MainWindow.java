@@ -72,4 +72,8 @@ public class MainWindow extends JFrame {
 		datosJugadores[jugadorActual].actualizarCarta2(carta2);
 	}
 
+	public int elegirCarta() {
+		return datosJugadores[jugadorActual].getCartaElegida();
+	}
+
 }
