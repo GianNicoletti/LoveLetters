@@ -15,6 +15,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+import javax.swing.UIManager;
+import java.awt.Color;
 
 public class DatosJugador extends JPanel {
 
@@ -23,12 +26,14 @@ public class DatosJugador extends JPanel {
 	private PanelCarta carta2;
 	private int cartaElegida;
 	private boolean debeElegirCarta;
+	private JButton seleccionar;
 
 	/**
 	 * Create the panel.
 	 */
 	public DatosJugador(Jugador j) {
 		super();
+		setBackground(Color.WHITE);
 		this.jugador = j;
 		setLayout(null);
 
@@ -48,10 +53,11 @@ public class DatosJugador extends JPanel {
 				}
 			}
 		});
-		carta1.setBounds(27, 49, 119, 154);
+		carta1.setBounds(27, 49, 200, 250);
 		carta1.setLayout(null);
+		carta1.setBackground(new Color(0, 0, 0, 1));
 		add(carta1);
-
+		
 		carta2 = new PanelCarta();
 		carta2.addMouseListener(new MouseAdapter() {
 			@Override
@@ -60,9 +66,22 @@ public class DatosJugador extends JPanel {
 				debeElegirCarta = false;
 			}
 		});
-		carta2.setBounds(255, 49, 119, 154);
+		carta2.setBounds(255, 49, 200, 250);
+		carta2.setBackground(new Color(0, 0, 0, 1));
 		add(carta2);
 		carta2.setLayout(null);
+
+		seleccionar = new JButton("Seleccionar");
+		seleccionar.setBackground(UIManager.getColor("window"));
+		seleccionar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+			}
+		});
+		seleccionar.setBounds(10, 11, 89, 23);
+		add(seleccionar);
+		seleccionar.setVisible(false);
 	}
 
 	@Override
@@ -116,4 +135,5 @@ public class DatosJugador extends JPanel {
 		}
 		return cartaElegida;
 	}
+
 }

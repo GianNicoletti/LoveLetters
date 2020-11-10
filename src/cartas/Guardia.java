@@ -14,9 +14,9 @@ public class Guardia extends Carta {
 	public void descartar(Jugador jugador) {
 		Jugador otro = jugador.seleccionarOtroJugador();
 		System.out.println("Escribe el nombre de un tipo de carta (Excepto Guardia):");
-		try (Scanner teclado = new Scanner(System.in)) {
-			//verificarCarta(otro, teclado.nextLine());
-		}
+		String nombreCarta = jugador.adivinarCarta();
+		System.out.println("Nombre :" + nombreCarta);
+		verificarCarta(otro, nombreCarta);
 	}
 
 	public void verificarCarta(Jugador otro, String nombreCarta) {

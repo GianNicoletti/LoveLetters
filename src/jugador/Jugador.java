@@ -1,13 +1,17 @@
 package jugador;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Scanner;
 
+import UI.CardSelector;
 import UI.MainWindow;
 import cartas.Carta;
 import sala.Sala;
 
 public class Jugador {
 	private String nombre;
+	private String nombreCarta;
 	private Sala sala;
 	private int puntaje;
 	private int cantDescartadas;
@@ -15,6 +19,7 @@ public class Jugador {
 	private boolean juegaRonda;
 	private boolean protegido;
 	private Carta carta;
+	private MainWindow window;
 
 	public Jugador(String nombre) {
 		this.nombre = nombre;
@@ -39,6 +44,7 @@ public class Jugador {
 	}
 
 	public void jugar(MainWindow window) {
+		this.window = window;
 		if (protegido)
 			protegido = false;
 		Carta carta2;
@@ -58,17 +64,15 @@ public class Jugador {
 			System.out.println("2 - " + carta2.getNombre());
 			System.out.println("3 - Rendirse");
 			System.out.print("--> ");
-			int cartaElegida=window.elegirCarta();
+			int cartaElegida = window.elegirCarta();
 			switch (cartaElegida) {
 			case 1:
-				System.out.println("elijo 1");
 				Carta aux = carta;
 				carta = carta2;
 				aux.descartar(this);
 				cantDescartadas++;
 				break;
 			case 2:
-				System.out.println("elijo 2");
 				carta2.descartar(this);
 				cantDescartadas++;
 				break;
@@ -82,12 +86,20 @@ public class Jugador {
 	public Jugador seleccionarOtroJugador() {
 		Jugador otro;
 		System.out.println("Elige un jugador (escribe el numero del jugador): ");
-		try (Scanner teclado = new Scanner(System.in)) {
-			sala.listarJugadores();
-			int i = teclado.nextInt();
-			otro = sala.getJugadorPorIndice(i);
-			return otro;
-		}
+		// try (Scanner teclado = new Scanner(System.in)) {
+		// sala.listarJugadores();
+		// int i = teclado.nextInt();
+		int i = window.elegirJugador();
+		otro = sala.getJugadorPorIndice(i);
+		System.out.println("Elegido: " + otro.getNombre());
+		return otro;
+		// }
+	}
+
+	public String adivinarCarta() {
+		CardSelector seleccionar = new CardSelector();
+		seleccionar.setVisible(true);
+		return seleccionar.getSeleccion();
 	}
 
 	public void salirDeRonda() {

@@ -69,6 +69,8 @@ public class Sala {
 				window.actualizar(i);
 			}
 			i++;
+			if (i == jugadores.size())
+				i = 0;
 		}
 		jugador = this.buscarGanadorRonda();
 		jugador.incPuntaje();
