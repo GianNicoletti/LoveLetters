@@ -2,8 +2,13 @@ package UI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,6 +19,8 @@ import jugador.Jugador;
 import sala.Sala;
 import javax.swing.JLabel;
 import java.awt.Color;
+
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
 public class MainWindow extends JFrame {
@@ -24,6 +31,7 @@ public class MainWindow extends JFrame {
 	private int jugadorActual;
 	private boolean debeElegirJugador;
 	private int jugadorElegido;
+	private BufferedImage imgAtras;
 	/**
 	 * Launch the application.
 	 */
@@ -44,6 +52,11 @@ public class MainWindow extends JFrame {
 	 * Create the frame.
 	 */
 	public MainWindow(Sala sala) {
+		try {
+			imgAtras = ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.sala = sala;
 		int[] posiciones = { 500, 500, 35, 300, 500, 50, 1300, 300 };
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,6 +88,7 @@ public class MainWindow extends JFrame {
 		this.jugadorActual = actual;
 		for (DatosJugador dj : datosJugadores)
 			dj.actualizar(sala.getJugadorPorIndice(actual));
+		this.repaint();
 	}
 
 	public void actualizarActual(Carta carta2) {
@@ -84,6 +98,22 @@ public class MainWindow extends JFrame {
 	public int elegirCarta() {
 		return datosJugadores[jugadorActual].getCartaElegida();
 	}
+
+	//@Override
+	//protected void paintComponent(Graphics g) {
+		//super.paintComponent(g);
+		//Graphics2D g2 = (Graphics2D) g;
+
+		// Dimension currentDimension = getContentPane().getSize();
+		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
+		// HEIGHT);
+		//int y=0;
+		//int x=0;
+		//for(int i=0;i<30;i++)
+			//g2.drawImage(imgAtras, null,x+i*0.1 ,y+i*0.1);
+		// g2.drawImage(carta1, null, 5, 90);
+		// g2.drawImage(carta2, null, 90, 90);
+	//}
 
 	public int elegirJugador() {
 
@@ -108,7 +138,7 @@ public class MainWindow extends JFrame {
 				contentPane.add(boton);
 				j++;
 			}
-
+			this.repaint();
 		}
 		this.validate();
 		contentPane.validate();
@@ -119,8 +149,8 @@ public class MainWindow extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		for (int i = 0; i < botones.length; i++)
-			this.contentPane.remove(botones[i]);
+		//for (int i = 0; i < botones.length; i++)
+			//this.contentPane.remove(botones[i]);
 		return jugadorElegido;
 	}
 }

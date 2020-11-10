@@ -30,13 +30,13 @@ public class CardSelector extends JFrame {
 	 * Launch the application.
 	 */
 	public CardSelector() {
+		cartas.add(new Sacerdote());
+		cartas.add(new Baron());
 		cartas.add(new Mucama());
+		cartas.add(new Principe());
 		cartas.add(new Rey());
 		cartas.add(new Condesa());
-		cartas.add(new Principe());
-		cartas.add(new Sacerdote());
 		cartas.add(new Princesa());
-		cartas.add(new Baron());
 
 		BufferedImage img = null;
 		Image finalImg;

@@ -26,7 +26,7 @@ public class DatosJugador extends JPanel {
 	private PanelCarta carta2;
 	private int cartaElegida;
 	private boolean debeElegirCarta;
-	private JButton seleccionar;
+	private JLabel puntaje;
 
 	/**
 	 * Create the panel.
@@ -38,7 +38,7 @@ public class DatosJugador extends JPanel {
 		setLayout(null);
 
 		JLabel nombre = new JLabel(j.getNombre());
-		nombre.setBounds(183, 27, 112, 14);
+		nombre.setBounds(193, 0, 112, 14);
 		add(nombre);
 
 		carta1 = new PanelCarta();
@@ -53,7 +53,7 @@ public class DatosJugador extends JPanel {
 				}
 			}
 		});
-		carta1.setBounds(27, 49, 200, 250);
+		carta1.setBounds(27, 49, 200, 260);
 		carta1.setLayout(null);
 		carta1.setBackground(new Color(0, 0, 0, 1));
 		add(carta1);
@@ -66,22 +66,15 @@ public class DatosJugador extends JPanel {
 				debeElegirCarta = false;
 			}
 		});
-		carta2.setBounds(255, 49, 200, 250);
+		carta2.setBounds(255, 49, 200, 260);
 		carta2.setBackground(new Color(0, 0, 0, 1));
 		add(carta2);
 		carta2.setLayout(null);
-
-		seleccionar = new JButton("Seleccionar");
-		seleccionar.setBackground(UIManager.getColor("window"));
-		seleccionar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-			}
-		});
-		seleccionar.setBounds(10, 11, 89, 23);
-		add(seleccionar);
-		seleccionar.setVisible(false);
+		
+		puntaje = new JLabel("New label");
+		puntaje.setBounds(295, 27, 46, 14);
+		puntaje.setText(jugador.getPuntaje()+" Puntos");
+		add(puntaje);
 	}
 
 	@Override
@@ -110,6 +103,7 @@ public class DatosJugador extends JPanel {
 			e.printStackTrace();
 		}
 		carta2.setImg(null);
+		puntaje.setText(jugador.getPuntaje()+" Puntos");
 		this.repaint();
 	}
 
@@ -135,5 +129,4 @@ public class DatosJugador extends JPanel {
 		}
 		return cartaElegida;
 	}
-
 }
