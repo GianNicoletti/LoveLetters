@@ -10,7 +10,7 @@ public class Sacerdote extends Carta {
 
 	@Override
 	public void descartar(Jugador jugador) {
-		Jugador otro = jugador.seleccionarOtroJugador();
+		Jugador otro = jugador.seleccionarOtroJugador(false);
 		obtenerCarta(otro);
 	}
 	

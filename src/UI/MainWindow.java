@@ -99,31 +99,34 @@ public class MainWindow extends JFrame {
 		return datosJugadores[jugadorActual].getCartaElegida();
 	}
 
-	//@Override
-	//protected void paintComponent(Graphics g) {
-		//super.paintComponent(g);
-		//Graphics2D g2 = (Graphics2D) g;
+	// @Override
+	// protected void paintComponent(Graphics g) {
+	// super.paintComponent(g);
+	// Graphics2D g2 = (Graphics2D) g;
 
-		// Dimension currentDimension = getContentPane().getSize();
-		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
-		// HEIGHT);
-		//int y=0;
-		//int x=0;
-		//for(int i=0;i<30;i++)
-			//g2.drawImage(imgAtras, null,x+i*0.1 ,y+i*0.1);
-		// g2.drawImage(carta1, null, 5, 90);
-		// g2.drawImage(carta2, null, 90, 90);
-	//}
+	// Dimension currentDimension = getContentPane().getSize();
+	// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
+	// HEIGHT);
+	// int y=0;
+	// int x=0;
+	// for(int i=0;i<30;i++)
+	// g2.drawImage(imgAtras, null,x+i*0.1 ,y+i*0.1);
+	// g2.drawImage(carta1, null, 5, 90);
+	// g2.drawImage(carta2, null, 90, 90);
+	// }
 
-	public int elegirJugador() {
+	public int elegirJugador(boolean allowSelf) {
 
 		debeElegirJugador = true;
 		int j = 0;
-		JButton[] botones = new JButton[sala.jugadoresEnRonda()];
+		int cant = sala.jugadoresEnRonda();
+		if (!allowSelf)
+			cant--;
+		JButton[] botones = new JButton[cant];
 		int[] posiciones = { 500, 500, 35, 300, 500, 50, 1300, 300 };
 		JButton boton;
 		for (int i = 0; i < sala.getJugadores().size(); i++) {
-			if (i != jugadorActual && sala.getJugadorPorIndice(i).juegaRonda()) {
+			if ((i != jugadorActual || allowSelf) && sala.getJugadorPorIndice(i).juegaRonda()) {
 				boton = new JButton("Seleccionar");
 				boton.setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 89, 23);
 				botones[j] = boton;
@@ -138,10 +141,8 @@ public class MainWindow extends JFrame {
 				contentPane.add(boton);
 				j++;
 			}
-			this.repaint();
 		}
-		this.validate();
-		contentPane.validate();
+		this.repaint();
 		while (debeElegirJugador) {
 			try {
 				Thread.sleep(1);
@@ -149,8 +150,9 @@ public class MainWindow extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		//for (int i = 0; i < botones.length; i++)
-			//this.contentPane.remove(botones[i]);
+		for (int i = 0; i < botones.length; i++)
+			if (botones[i] != null)
+				contentPane.remove(botones[i]);
 		return jugadorElegido;
 	}
 }

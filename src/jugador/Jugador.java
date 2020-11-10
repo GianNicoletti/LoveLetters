@@ -83,13 +83,13 @@ public class Jugador {
 		}
 	}
 
-	public Jugador seleccionarOtroJugador() {
+	public Jugador seleccionarOtroJugador(boolean allowSelf) {
 		Jugador otro;
 		System.out.println("Elige un jugador (escribe el numero del jugador): ");
 		// try (Scanner teclado = new Scanner(System.in)) {
 		// sala.listarJugadores();
 		// int i = teclado.nextInt();
-		int i = window.elegirJugador();
+		int i = window.elegirJugador(allowSelf);
 		otro = sala.getJugadorPorIndice(i);
 		System.out.println("Elegido: " + otro.getNombre());
 		return otro;
