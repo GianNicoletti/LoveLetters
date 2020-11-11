@@ -18,6 +18,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.UIManager;
 import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.SystemColor;
 
 public class DatosJugador extends JPanel {
 
@@ -27,6 +29,7 @@ public class DatosJugador extends JPanel {
 	private int cartaElegida;
 	private boolean debeElegirCarta;
 	private JLabel puntaje;
+	private JLabel descarte;
 
 	/**
 	 * Create the panel.
@@ -38,6 +41,8 @@ public class DatosJugador extends JPanel {
 		setLayout(null);
 
 		JLabel nombre = new JLabel(j.getNombre());
+		nombre.setBackground(SystemColor.info);
+		nombre.setHorizontalAlignment(SwingConstants.CENTER);
 		nombre.setBounds(193, 0, 112, 14);
 		add(nombre);
 
@@ -72,9 +77,13 @@ public class DatosJugador extends JPanel {
 		carta2.setLayout(null);
 
 		puntaje = new JLabel("New label");
-		puntaje.setBounds(295, 27, 46, 14);
+		puntaje.setBounds(297, 25, 131, 30);
 		puntaje.setText(jugador.getPuntaje() + " Puntos");
 		add(puntaje);
+
+		descarte = new JLabel(jugador.getCantDescartadas() + " cartas jugadas");
+		descarte.setBounds(27, 24, 131, 14);
+		add(descarte);
 	}
 
 	@Override
@@ -84,10 +93,25 @@ public class DatosJugador extends JPanel {
 		// Dimension currentDimension = getContentPane().getSize();
 		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
 		// HEIGHT);
-		if (!jugador.juegaRonda())
+		if (!jugador.juegaRonda()) {
+			g2.setColor(Color.red);
 			g2.drawString("Eliminado", 0, 20);
-		else if (jugador.isProtegido())
+		} else if (jugador.isProtegido()) {
+			g2.setColor(Color.white);
 			g2.drawString("Protegido", 0, 20);
+		}
+		int i = 0;
+		for (Carta carta : jugador.getDescartadas()) {
+			BufferedImage image;
+			try {
+				image = ImageIO.read(new File("Assets/imgs/" + carta.getImagePath() + ".png"));
+				BufferedImage img = new BufferedImage(10, 10, image.getType());
+				g2.drawImage(image, null, 0 + i, 0);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			i++;
+		}
 		// g2.drawImage(carta1, null, 5, 90);
 		// g2.drawImage(carta2, null, 90, 90);
 	}
@@ -106,11 +130,15 @@ public class DatosJugador extends JPanel {
 		}
 		carta2.setImg(null);
 		puntaje.setText(jugador.getPuntaje() + " Puntos");
-		
-		if(!jugador.juegaRonda())
-			setBackground(Color.DARK_GRAY);
-		//UNA FORMA MUY BRUSCA DE MARCAR QUE ESTA ELIMINADO
-		
+		descarte.setText((jugador.getCantDescartadas() + " cartas jugadas"));
+
+		// UNA FORMA MUY BRUSCA DE MARCAR QUE ESTA ELIMINADO
+		if (!jugador.juegaRonda())
+			setBackground(Color.LIGHT_GRAY);
+		else if (jugador.isProtegido())
+			setBackground(Color.green);
+		else
+			setBackground(new Color(0, 0, 0, 1));
 		this.repaint();
 	}
 
@@ -135,5 +163,14 @@ public class DatosJugador extends JPanel {
 			}
 		}
 		return cartaElegida;
+	}
+
+	public void verCarta() {
+		try {
+			carta1.setImg(ImageIO.read(new File(jugador.getCarta().getImagePath())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		carta1.repaint();
 	}
 }

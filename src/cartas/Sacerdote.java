@@ -1,5 +1,6 @@
 package cartas;
 
+import UI.MainWindow;
 import jugador.Jugador;
 
 public class Sacerdote extends Carta {
@@ -10,12 +11,16 @@ public class Sacerdote extends Carta {
 
 	@Override
 	public void descartar(Jugador jugador) {
-		Jugador otro = jugador.seleccionarOtroJugador(false);
-		obtenerCarta(otro);
+		int indice = jugador.seleccionarIndiceOtroJugador();
+		if (indice != -1)
+			jugador.verCarta(indice);
+		// obtenerCarta(otro);
+
 	}
-	
-	public String obtenerCarta(Jugador otro) {
-		System.out.println("La carta de " + otro.getNombre() + " es " + otro.getCarta().getNombre());
-		return otro.getCarta().getNombre();	//que retorne string no haría falta, se agregó para hacer los tests.
-	}
+
+	/*
+	 * public void obtenerCarta(Jugador otro) { System.out.println("La carta de " +
+	 * otro.getNombre() + " es " + otro.getCarta().getNombre()); // que retorne
+	 * string no haría falta, se agregó para hacer los tests. }
+	 */
 }

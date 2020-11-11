@@ -3,6 +3,7 @@ package sala;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import UI.MainContainer;
 import UI.MainWindow;
 import cartas.*;
 import jugador.Jugador;
@@ -45,8 +46,9 @@ public class Sala {
 			return;
 		}
 		System.out.println("arranca");
-		window = new MainWindow(this);
-		window.setVisible(true);
+		MainContainer container = new MainContainer(this);
+		container.setVisible(true);
+		window = container.getContentPane();
 		while (!this.buscarGanador() && jugadores.size() > 1) {
 			this.generarMazo();
 			this.jugarRonda();
@@ -66,6 +68,7 @@ public class Sala {
 			jugador = jugadores.get(i);
 			if (jugador.juegaRonda()) {
 				jugador.jugar(window);
+				window.cambiarTurno();
 				window.actualizar(i);
 			}
 			i++;
@@ -73,7 +76,15 @@ public class Sala {
 				i = 0;
 		}
 		jugador = this.buscarGanadorRonda();
+		System.out.println("Ganador" + jugador.getNombre());
 		jugador.incPuntaje();
+		rehabilitarJugadores();
+	}
+
+	private void rehabilitarJugadores() {
+		for (Jugador jugador : jugadores) {
+			jugador.entrarEnRonda();
+		}
 	}
 
 	public void repartir() {
@@ -163,5 +174,9 @@ public class Sala {
 
 	public int getSimbParaGanar() {
 		return simbParaGanar;
+	}
+
+	public int getTamanioMazo() {
+		return mazo.size();
 	}
 }

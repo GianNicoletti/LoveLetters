@@ -2,6 +2,7 @@ package jugador;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import UI.CardSelector;
@@ -11,7 +12,6 @@ import sala.Sala;
 
 public class Jugador {
 	private String nombre;
-	private String nombreCarta;
 	private Sala sala;
 	private int puntaje;
 	private int cantDescartadas;
@@ -20,8 +20,10 @@ public class Jugador {
 	private boolean protegido;
 	private Carta carta;
 	private MainWindow window;
+	private ArrayList<Carta> descartadas;
 
 	public Jugador(String nombre) {
+		descartadas = new ArrayList<Carta>();
 		this.nombre = nombre;
 		juegaRonda = true;
 		protegido = false;
@@ -51,11 +53,13 @@ public class Jugador {
 		carta2 = this.robar();
 		window.actualizarActual(carta2);
 		if (carta.getNombre() == "Condesa" && (carta2.getNombre() == "Principe" || carta2.getNombre() == "Rey")) {
+			descartadas.add(carta);
 			Carta aux = carta;
 			carta = carta2;
 			aux.descartar(this);
 			cantDescartadas++;
 		} else if (carta2.getNombre() == "Condesa" && (carta.getNombre() == "Principe" || carta.getNombre() == "Rey")) {
+			descartadas.add(carta2);
 			carta2.descartar(this);
 			cantDescartadas++;
 		} else {
@@ -90,10 +94,26 @@ public class Jugador {
 		// sala.listarJugadores();
 		// int i = teclado.nextInt();
 		int i = window.elegirJugador(allowSelf);
+		if (i == -1)
+			return null;
 		otro = sala.getJugadorPorIndice(i);
 		System.out.println("Elegido: " + otro.getNombre());
 		return otro;
 		// }
+	}
+
+	public int seleccionarIndiceOtroJugador() {
+		Jugador otro;
+		System.out.println("Elige un jugador (escribe el numero del jugador): ");
+		// try (Scanner teclado = new Scanner(System.in)) {
+		// sala.listarJugadores();
+		// int i = teclado.nextInt();
+		return window.elegirJugador(false);
+		// }
+	}
+
+	public void verCarta(int indiceJugador) {
+		window.verCarta(indiceJugador);
 	}
 
 	public String adivinarCarta() {
@@ -104,6 +124,10 @@ public class Jugador {
 
 	public void salirDeRonda() {
 		juegaRonda = false;
+	}
+
+	public void entrarEnRonda() {
+		juegaRonda = true;
 	}
 
 	public void intercambiarMano(Jugador otro) {
@@ -190,6 +214,10 @@ public class Jugador {
 
 	public void setCantDescartadas(int cantDescartadas) {
 		this.cantDescartadas = cantDescartadas;
+	}
+
+	public ArrayList<Carta> getDescartadas() {
+		return descartadas;
 	}
 
 }

@@ -23,15 +23,15 @@ import java.awt.Color;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JPanel {
 
-	private JPanel contentPane;
 	private Sala sala;
 	private DatosJugador[] datosJugadores;
 	private int jugadorActual;
 	private boolean debeElegirJugador;
 	private int jugadorElegido;
 	private BufferedImage imgAtras;
+	private BufferedImage background;
 	/**
 	 * Launch the application.
 	 */
@@ -54,40 +54,47 @@ public class MainWindow extends JFrame {
 	public MainWindow(Sala sala) {
 		try {
 			imgAtras = ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png"));
+			background = ImageIO.read(new File("Assets/imgs/" + "Fondo" + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		setUndecorated(true);		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		
+
 		this.sala = sala;
-		this.setResizable(true);
+
 		int[] posiciones = { 500, 500, 35, 300, 500, 50, 1300, 300 };
-		
-		
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.ORANGE);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+
+		setLayout(null);
 
 		JLabel puntos = new JLabel(sala.getSimbParaGanar() + "");
 		puntos.setBounds(508, 11, 46, 14);
-		contentPane.add(puntos);
+		add(puntos);
 
 		DatosJugador a = new DatosJugador(sala.getJugadores().get(1));
-		contentPane.add(a);
+		add(a);
 
 		datosJugadores = new DatosJugador[sala.getJugadores().size()];
 		for (int i = 0; i < datosJugadores.length; i++) {
 			datosJugadores[i] = new DatosJugador(sala.getJugadores().get(i));
 			datosJugadores[i].setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 500, 500);
 			datosJugadores[i].setBackground(new Color(0, 0, 0, 1));
-			contentPane.add(datosJugadores[i]);
+			add(datosJugadores[i]);
 		}
 
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+
+		g2.drawImage(background, null, 0, 0);
+
+		int x = 0;
+		int y = 0;
+
+		for (int i = 0; i < sala.getTamanioMazo(); i++) {
+			g2.drawImage(imgAtras, null, x + 2 * i, y + 2 * i);
+		}
 	}
 
 	public void actualizar(int actual) {
@@ -104,16 +111,6 @@ public class MainWindow extends JFrame {
 	public int elegirCarta() {
 		return datosJugadores[jugadorActual].getCartaElegida();
 	}
-
-	// @Override
-	// public void paint(Graphics g) {
-	// Graphics2D g2 = (Graphics2D) g;
-	// int y = 0;
-	// int x = 0;
-	// for (int i = 0; i < 30; i++) {
-	// g2.drawImage(imgAtras, null, x + i, y + i);
-	// }
-	// }
 
 	public int elegirJugador(boolean allowSelf) {
 
@@ -139,11 +136,16 @@ public class MainWindow extends JFrame {
 						debeElegirJugador = false;
 					}
 				});
-				contentPane.add(boton);
+				add(boton);
 				j++;
 			}
 		}
 		this.repaint();
+		if (j == 0) {
+			debeElegirJugador = false;
+			System.out.println("no se puede elegir a nadie"); // poner dialogo o algo
+			return -1;
+		}
 		while (debeElegirJugador) {
 			try {
 				Thread.sleep(1);
@@ -153,7 +155,25 @@ public class MainWindow extends JFrame {
 		}
 		for (int i = 0; i < botones.length; i++)
 			if (botones[i] != null)
-				contentPane.remove(botones[i]);
+				remove(botones[i]);
 		return jugadorElegido;
+	}
+
+	public void verCarta(int indice) {
+		datosJugadores[indice].verCarta();
+	}
+
+	public void cambiarTurno() {
+		int i = jugadorActual + 1;
+		if (i == sala.getJugadores().size())
+			i = 0;
+		while (!sala.getJugadorPorIndice(i).juegaRonda()) {
+			i++;
+			if (i == sala.getJugadores().size())
+				i = 0;
+		}
+		CambioTurno dialog = new CambioTurno(sala.getJugadorPorIndice(i).getNombre());
+		dialog.setVisible(true);
+		dialog.pasar();
 	}
 }
