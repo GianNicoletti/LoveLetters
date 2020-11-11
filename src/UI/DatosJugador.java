@@ -57,7 +57,7 @@ public class DatosJugador extends JPanel {
 		carta1.setLayout(null);
 		carta1.setBackground(new Color(0, 0, 0, 1));
 		add(carta1);
-		
+
 		carta2 = new PanelCarta();
 		carta2.addMouseListener(new MouseAdapter() {
 			@Override
@@ -70,10 +70,10 @@ public class DatosJugador extends JPanel {
 		carta2.setBackground(new Color(0, 0, 0, 1));
 		add(carta2);
 		carta2.setLayout(null);
-		
+
 		puntaje = new JLabel("New label");
 		puntaje.setBounds(295, 27, 46, 14);
-		puntaje.setText(jugador.getPuntaje()+" Puntos");
+		puntaje.setText(jugador.getPuntaje() + " Puntos");
 		add(puntaje);
 	}
 
@@ -81,11 +81,13 @@ public class DatosJugador extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-
 		// Dimension currentDimension = getContentPane().getSize();
 		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
 		// HEIGHT);
-		g2.drawString(jugador.getPuntaje() + " Puntos", 84, 58);
+		if (!jugador.juegaRonda())
+			g2.drawString("Eliminado", 0, 20);
+		else if (jugador.isProtegido())
+			g2.drawString("Protegido", 0, 20);
 		// g2.drawImage(carta1, null, 5, 90);
 		// g2.drawImage(carta2, null, 90, 90);
 	}
@@ -103,7 +105,7 @@ public class DatosJugador extends JPanel {
 			e.printStackTrace();
 		}
 		carta2.setImg(null);
-		puntaje.setText(jugador.getPuntaje()+" Puntos");
+		puntaje.setText(jugador.getPuntaje() + " Puntos");
 		this.repaint();
 	}
 

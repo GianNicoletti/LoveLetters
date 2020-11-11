@@ -58,6 +58,7 @@ public class MainWindow extends JFrame {
 			e.printStackTrace();
 		}
 		this.sala = sala;
+		this.setResizable(true);
 		int[] posiciones = { 500, 500, 35, 300, 500, 50, 1300, 300 };
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1016, 557);
@@ -100,19 +101,13 @@ public class MainWindow extends JFrame {
 	}
 
 	// @Override
-	// protected void paintComponent(Graphics g) {
-	// super.paintComponent(g);
+	// public void paint(Graphics g) {
 	// Graphics2D g2 = (Graphics2D) g;
-
-	// Dimension currentDimension = getContentPane().getSize();
-	// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
-	// HEIGHT);
-	// int y=0;
-	// int x=0;
-	// for(int i=0;i<30;i++)
-	// g2.drawImage(imgAtras, null,x+i*0.1 ,y+i*0.1);
-	// g2.drawImage(carta1, null, 5, 90);
-	// g2.drawImage(carta2, null, 90, 90);
+	// int y = 0;
+	// int x = 0;
+	// for (int i = 0; i < 30; i++) {
+	// g2.drawImage(imgAtras, null, x + i, y + i);
+	// }
 	// }
 
 	public int elegirJugador(boolean allowSelf) {
@@ -126,7 +121,8 @@ public class MainWindow extends JFrame {
 		int[] posiciones = { 500, 500, 35, 300, 500, 50, 1300, 300 };
 		JButton boton;
 		for (int i = 0; i < sala.getJugadores().size(); i++) {
-			if ((i != jugadorActual || allowSelf) && sala.getJugadorPorIndice(i).juegaRonda()) {
+			if ((i != jugadorActual || allowSelf) && sala.getJugadorPorIndice(i).juegaRonda()
+					&& !sala.getJugadorPorIndice(i).isProtegido()) {
 				boton = new JButton("Seleccionar");
 				boton.setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 89, 23);
 				botones[j] = boton;
