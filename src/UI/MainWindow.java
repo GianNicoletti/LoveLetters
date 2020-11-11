@@ -57,11 +57,16 @@ public class MainWindow extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		setUndecorated(true);		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
 		this.sala = sala;
 		this.setResizable(true);
 		int[] posiciones = { 500, 500, 35, 300, 500, 50, 1300, 300 };
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1920, 1080);
+		
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.ORANGE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

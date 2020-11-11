@@ -106,6 +106,11 @@ public class DatosJugador extends JPanel {
 		}
 		carta2.setImg(null);
 		puntaje.setText(jugador.getPuntaje() + " Puntos");
+		
+		if(!jugador.juegaRonda())
+			setBackground(Color.DARK_GRAY);
+		//UNA FORMA MUY BRUSCA DE MARCAR QUE ESTA ELIMINADO
+		
 		this.repaint();
 	}
 
