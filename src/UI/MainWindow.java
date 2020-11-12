@@ -67,14 +67,19 @@ public class MainWindow extends JPanel {
 			double xPantalla = screenSize.getWidth();
 			double yPantalla = screenSize.getHeight();
 			
-			// Obtengo el porcentaje que debo agrandar el fondo de acuerdo al tamaño del monitor
-			double xFactor, yFactor;
-			xFactor =  xPantalla/background.getHeight();
-			yFactor =  yPantalla/background.getWidth();
+			double xImagen = background.getWidth();
+			double yImagen = background.getHeight();
+			
+			// Obtengo el porcentaje que debo agrandar el fondo de acuerdo al tamaño del monito
+			double xFactor = xPantalla/xImagen;
+			double yFactor = yPantalla/yImagen;
+			
+			xImagen *=  xFactor;
+			yImagen *=  yFactor;
 			
 			// Aplico una transformacion con eso factores a la imagen del fondo para que se estire.
-			BufferedImage scaledImage = new BufferedImage( (int)(background.getWidth()*xFactor) , (int)(background.getHeight()*yFactor),  BufferedImage.TYPE_INT_ARGB);
-			AffineTransform at = AffineTransform.getScaleInstance(2.0, 2.0);
+			BufferedImage scaledImage = new BufferedImage( (int) xImagen , (int) yImagen,  BufferedImage.TYPE_INT_ARGB);
+			AffineTransform at = AffineTransform.getScaleInstance(xFactor, yFactor);
 			AffineTransformOp ato = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
 			background = ato.filter(background, scaledImage);
 						
@@ -94,6 +99,7 @@ public class MainWindow extends JPanel {
 		DatosJugador a = new DatosJugador(sala.getJugadores().get(1));
 
 		datosJugadores = new DatosJugador[sala.getJugadores().size()];
+		
 		for (int i = 0; i < datosJugadores.length; i++) {
 			datosJugadores[i] = new DatosJugador(sala.getJugadores().get(i));
 			datosJugadores[i].setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 500, 500);
