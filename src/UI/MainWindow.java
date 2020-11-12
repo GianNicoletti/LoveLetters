@@ -4,8 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +22,7 @@ import jugador.Jugador;
 import sala.Sala;
 import javax.swing.JLabel;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -53,8 +57,27 @@ public class MainWindow extends JPanel {
 	 */
 	public MainWindow(Sala sala) {
 		try {
+			
 			imgAtras = ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png"));
-			background = ImageIO.read(new File("Assets/imgs/" + "Fondo" + ".png"));
+			background = ImageIO.read(new File("Assets/imgs/" + "Fondo" + ".jpg"));
+			
+			
+			// Determino las dimensiones del monitor.
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			double xPantalla = screenSize.getWidth();
+			double yPantalla = screenSize.getHeight();
+			
+			// Obtengo el porcentaje que debo agrandar el fondo de acuerdo al tamaño del monitor
+			double xFactor, yFactor;
+			xFactor =  xPantalla/background.getHeight();
+			yFactor =  yPantalla/background.getWidth();
+			
+			// Aplico una transformacion con eso factores a la imagen del fondo para que se estire.
+			BufferedImage scaledImage = new BufferedImage( (int)(background.getWidth()*xFactor) , (int)(background.getHeight()*yFactor),  BufferedImage.TYPE_INT_ARGB);
+			AffineTransform at = AffineTransform.getScaleInstance(2.0, 2.0);
+			AffineTransformOp ato = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
+			background = ato.filter(background, scaledImage);
+						
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,12 +88,10 @@ public class MainWindow extends JPanel {
 
 		setLayout(null);
 
-		JLabel puntos = new JLabel(sala.getSimbParaGanar() + "");
-		puntos.setBounds(508, 11, 46, 14);
-		add(puntos);
+		JLabel puntos = new JLabel("Se necesitan "+ sala.getSimbParaGanar() + " simbolos para ganar.");
+		puntos.setBounds(230, 5, 210, 16);
 
 		DatosJugador a = new DatosJugador(sala.getJugadores().get(1));
-		add(a);
 
 		datosJugadores = new DatosJugador[sala.getJugadores().size()];
 		for (int i = 0; i < datosJugadores.length; i++) {
@@ -80,6 +101,9 @@ public class MainWindow extends JPanel {
 			add(datosJugadores[i]);
 		}
 
+		add(a);
+		add(puntos);
+		
 	}
 
 	@Override
@@ -89,8 +113,8 @@ public class MainWindow extends JPanel {
 
 		g2.drawImage(background, null, 0, 0);
 
-		int x = 0;
-		int y = 0;
+		int x = 5;
+		int y = 5;
 
 		for (int i = 0; i < sala.getTamanioMazo(); i++) {
 			g2.drawImage(imgAtras, null, x + 2 * i, y + 2 * i);

@@ -26,15 +26,18 @@ public class MainContainer extends JFrame {
 	 * Create the frame.
 	 */
 	public MainContainer(Sala sala) {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setResizable(true);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setBounds(100, 100, 450, 300);
+				
 		contentPane = new MainWindow(sala);
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(Color.ORANGE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		setContentPane(contentPane);
 	}
 
