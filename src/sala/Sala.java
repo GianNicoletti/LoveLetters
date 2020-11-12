@@ -68,15 +68,17 @@ public class Sala {
 			jugador = jugadores.get(i);
 			if (jugador != null && jugador.juegaRonda()) {
 				jugador.jugar(window);
-				window.cambiarTurno();
-				window.actualizar(i);
+				if (mazo.size() > 0 && this.jugadoresEnRonda() > 1) {
+					window.cambiarTurno();
+					window.actualizar(i);
+				}
 			}
 			i++;
 			if (i == jugadores.size())
 				i = 0;
 		}
 		jugador = this.buscarGanadorRonda();
-		System.out.println("Ganador" + jugador.getNombre());
+		window.crearDialogo(("Ganador de la ronda: " + jugador.getNombre()));
 		jugador.incPuntaje();
 		rehabilitarJugadores();
 	}
@@ -159,8 +161,10 @@ public class Sala {
 	public boolean buscarGanador() {
 		for (Iterator<Jugador> iterator = jugadores.iterator(); iterator.hasNext();) {
 			Jugador actual = iterator.next();
-			if (actual != null && actual.getPuntaje() >= simbParaGanar)
+			if (actual != null && actual.getPuntaje() >= simbParaGanar) {
+				window.crearDialogo("Ganador de la partida: " + actual.getNombre());
 				return true;
+			}
 		}
 		return false;
 	}

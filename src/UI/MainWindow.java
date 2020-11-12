@@ -171,7 +171,7 @@ public class MainWindow extends JPanel {
 		this.repaint();
 		if (j == 0) {
 			debeElegirJugador = false;
-			System.out.println("no se puede elegir a nadie"); // poner dialogo o algo
+			crearDialogo("Todos los jugadores están protegidos");
 			return -1;
 		}
 		while (debeElegirJugador) {
@@ -189,6 +189,8 @@ public class MainWindow extends JPanel {
 
 	public void verCarta(int indice) {
 		datosJugadores[indice].verCarta();
+		crearDialogo("Continuar");
+		actualizar(jugadorActual);
 	}
 
 	public void cambiarTurno() {
@@ -196,16 +198,20 @@ public class MainWindow extends JPanel {
 		if (i == sala.getJugadores().size())
 			i = 0;
 		while (sala.getJugadorPorIndice(i) == null
-				|| (sala.getJugadorPorIndice(i) == null && !sala.getJugadorPorIndice(i).juegaRonda())) {
+				|| (sala.getJugadorPorIndice(i) != null && !sala.getJugadorPorIndice(i).juegaRonda())) {
 			i++;
 			if (i == sala.getJugadores().size())
 				i = 0;
 		}
-		Dialogo dialog = new Dialogo("El siguiente turno es del jugador "+sala.getJugadorPorIndice(i).getNombre());
+		crearDialogo("El siguiente turno es del jugador " + sala.getJugadorPorIndice(i).getNombre());
+	}
+
+	public void crearDialogo(String mensaje) {
+		Dialogo dialog = new Dialogo(mensaje);
 		dialog.setVisible(true);
 		dialog.pasar();
 	}
-	
+
 	public void eliminar(int indice) {
 		datosJugadores[indice].setNull();
 	}

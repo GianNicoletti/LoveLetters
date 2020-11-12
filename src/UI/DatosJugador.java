@@ -116,7 +116,7 @@ public class DatosJugador extends JPanel {
 			try {
 				image = ImageIO.read(new File("Assets/imgs/" + carta.getImagePath() + ".png"));
 				BufferedImage img = new BufferedImage(10, 10, image.getType());
-				g2.drawImage(image, null, 0 + i, 0);
+				g2.drawImage(image, null, 10, 10);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
