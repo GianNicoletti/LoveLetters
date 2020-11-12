@@ -93,15 +93,36 @@ public class LoginWindowOffline extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		startButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Sala sala = new Sala(new Jugador(jugador1Field.getText()), 3);
-				sala.agregarJugador(new Jugador(jugador2Field.getText()));
-				sala.agregarJugador(new Jugador(jugador3Field.getText()));
-				sala.agregarJugador(new Jugador(jugador4Field.getText()));
-				sala.empezarJuego();
-				//dispose();
+		public void actionPerformed(ActionEvent e) {
+				String aux;
+				aux=jugador1Field.getText();
+				if(!aux.isEmpty() || !aux.isBlank())
+					sala=new Sala(new Jugador(aux),(int)cantSimbolos.getValue());
+				aux=jugador2Field.getText();
+				if(!aux.isEmpty() || !aux.isBlank())
+					sala.agregarJugador(new Jugador(aux));
+				aux=jugador3Field.getText();
+				if(!aux.isEmpty() || !aux.isBlank())
+					sala.agregarJugador(new Jugador(aux));
+				aux=jugador4Field.getText();
+				if(!aux.isEmpty() || !aux.isBlank())
+					sala.agregarJugador(new Jugador(aux));
+				debeCrear = false;
+				dispose();
 			}
 		});
 		
+	}
+	
+	public Sala getSala() {
+		this.debeCrear = true;
+		while (debeCrear) {
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		return this.sala;
 	}
 }
