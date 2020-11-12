@@ -132,8 +132,15 @@ public class MainWindow extends JPanel {
 		this.repaint();
 	}
 
+	public void invisivilizar() {
+		for (DatosJugador dj : datosJugadores)
+			dj.actualizar(null);
+		this.repaint();
+	}
+
 	public void actualizarActual(Carta carta2) {
 		datosJugadores[jugadorActual].actualizarCarta2(carta2);
+		this.repaint();
 	}
 
 	public int elegirCarta() {
@@ -189,6 +196,7 @@ public class MainWindow extends JPanel {
 
 	public void verCarta(int indice) {
 		datosJugadores[indice].verCarta();
+		repaint();
 		crearDialogo("Continuar");
 		actualizar(jugadorActual);
 	}
@@ -203,6 +211,7 @@ public class MainWindow extends JPanel {
 			if (i == sala.getJugadores().size())
 				i = 0;
 		}
+		this.invisivilizar();
 		crearDialogo("El siguiente turno es del jugador " + sala.getJugadorPorIndice(i).getNombre());
 	}
 

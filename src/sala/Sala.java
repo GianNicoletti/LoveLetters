@@ -49,6 +49,8 @@ public class Sala {
 		MainContainer container = new MainContainer(this);
 		container.setVisible(true);
 		window = container.getContentPane();
+		for(Jugador j : jugadores)
+			j.setWindow(window);
 		while (!this.buscarGanador() && jugadores.size() > 1) {
 			this.generarMazo();
 			this.jugarRonda();
@@ -67,7 +69,7 @@ public class Sala {
 				i = 0;
 			jugador = jugadores.get(i);
 			if (jugador != null && jugador.juegaRonda()) {
-				jugador.jugar(window);
+				jugador.jugar();
 				if (mazo.size() > 0 && this.jugadoresEnRonda() > 1) {
 					window.cambiarTurno();
 					window.actualizar(i);

@@ -12,6 +12,7 @@ public class Guardia extends Carta {
 
 	@Override
 	public void descartar(Jugador jugador) {
+		super.descartar(jugador);
 		Jugador otro = jugador.seleccionarOtroJugador(false);
 		if(otro==null)
 			return;

@@ -10,6 +10,7 @@ public class Princesa extends Carta {
 
 	@Override
 	public void descartar(Jugador jugador) {
+		super.descartar(jugador);
 		jugador.salirDeRonda();
 	}
 

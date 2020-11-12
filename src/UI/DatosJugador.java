@@ -100,6 +100,7 @@ public class DatosJugador extends JPanel {
 		});
 		rendirse.setBounds(76, 320, 330, 23);
 		add(rendirse);
+		rendirse.setVisible(false);
 	}
 
 	@Override
@@ -109,14 +110,13 @@ public class DatosJugador extends JPanel {
 		// Dimension currentDimension = getContentPane().getSize();
 		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
 		// HEIGHT);
-
 		int i = 0;
 		for (Carta carta : jugador.getDescartadas()) {
 			BufferedImage image;
 			try {
-				image = ImageIO.read(new File("Assets/imgs/" + carta.getImagePath() + ".png"));
-				BufferedImage img = new BufferedImage(10, 10, image.getType());
-				g2.drawImage(image, null, 10, 10);
+				image = ImageIO.read(new File(carta.getImagePath()));
+				BufferedImage img = new BufferedImage(100, 100, image.getType());
+				g2.drawImage(img, null, 60 * i, 350);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -132,10 +132,8 @@ public class DatosJugador extends JPanel {
 			try {
 				if (ac == jugador) {
 					this.carta1.setImg(ImageIO.read(new File(jugador.getCarta().getImagePath())));
-					this.rendirse.setVisible(true);
 				} else {
 					this.carta1.setImg(ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png")));
-					this.rendirse.setVisible(false);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -158,20 +156,19 @@ public class DatosJugador extends JPanel {
 			this.carta2.setImg(null);
 			this.rendirse.setVisible(false);
 		}
-		this.repaint();
 	}
 
 	public void actualizarCarta2(Carta carta2) {
 		try {
 			this.carta2.setImg(ImageIO.read(new File(carta2.getImagePath())));
-			this.carta2.repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public int getCartaElegida() {
-		System.out.println("voy a elegir");
+		this.rendirse.setVisible(true);
+		// this.actualizar(this.jugador);
 		debeElegirCarta = true;
 		while (debeElegirCarta) {
 			cartaElegida = 0;
@@ -181,6 +178,7 @@ public class DatosJugador extends JPanel {
 				e.printStackTrace();
 			}
 		}
+		this.rendirse.setVisible(false);
 		return cartaElegida;
 	}
 
@@ -190,7 +188,6 @@ public class DatosJugador extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		carta1.repaint();
 	}
 
 	public void setNull() {

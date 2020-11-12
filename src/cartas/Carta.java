@@ -17,7 +17,9 @@ public abstract class Carta {
 		return imagePath;
 	}
 
-	public abstract void descartar(Jugador jugador);
+	public void descartar(Jugador jugador) {
+		jugador.agregarDescarte(this);
+	}
 
 	public String getNombre() {
 		return nombre;

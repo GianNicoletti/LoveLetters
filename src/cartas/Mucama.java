@@ -10,6 +10,7 @@ public class Mucama extends Carta {
 
 	@Override
 	public void descartar(Jugador jugador) {
+		super.descartar(jugador);
 		jugador.setProtegido(true);
 	}
 

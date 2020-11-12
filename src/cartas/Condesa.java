@@ -10,7 +10,7 @@ public class Condesa extends Carta {
 
 	@Override
 	public void descartar(Jugador jugador) {
-
+		super.descartar(jugador);
 	}
 
 }

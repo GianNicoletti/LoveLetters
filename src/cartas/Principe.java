@@ -10,6 +10,7 @@ public class Principe extends Carta {
 
 	@Override
 	public void descartar(Jugador jugador) {
+		super.descartar(jugador);
 		Jugador otro = jugador.seleccionarOtroJugador(true);
 		if(otro==null)
 			return;

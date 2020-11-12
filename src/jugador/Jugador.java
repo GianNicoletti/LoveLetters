@@ -45,21 +45,22 @@ public class Jugador {
 		this.sala = sala;
 	}
 
-	public void jugar(MainWindow window) {
+	public void setWindow(MainWindow window) {
 		this.window = window;
+	}
+	
+	public void jugar() {
 		if (protegido)
 			protegido = false;
 		Carta carta2;
 		carta2 = this.robar();
 		window.actualizarActual(carta2);
 		if (carta.getNombre() == "Condesa" && (carta2.getNombre() == "Principe" || carta2.getNombre() == "Rey")) {
-			descartadas.add(carta);
 			Carta aux = carta;
 			carta = carta2;
 			aux.descartar(this);
 			cantDescartadas++;
 		} else if (carta2.getNombre() == "Condesa" && (carta.getNombre() == "Principe" || carta.getNombre() == "Rey")) {
-			descartadas.add(carta2);
 			carta2.descartar(this);
 			cantDescartadas++;
 		} else {
@@ -123,11 +124,14 @@ public class Jugador {
 	}
 
 	public void salirDeRonda() {
+		window.crearDialogo("El jugador "+nombre+" queda elimiando de la ronda");
 		juegaRonda = false;
 	}
 
 	public void entrarEnRonda() {
 		juegaRonda = true;
+		descartadas = new ArrayList<Carta>();
+		protegido = false;
 	}
 
 	public void intercambiarMano(Jugador otro) {
@@ -217,7 +221,12 @@ public class Jugador {
 	}
 
 	public ArrayList<Carta> getDescartadas() {
+		System.out.println(descartadas.size());
 		return descartadas;
+	}
+
+	public void agregarDescarte(Carta carta) {
+		descartadas.add(carta);
 	}
 
 }
