@@ -32,12 +32,14 @@ public class DatosJugador extends JPanel {
 	private JLabel descarte;
 	private JLabel nombre;
 	private JButton rendirse;
+	private boolean abandono;
 
 	/**
 	 * Create the panel.
 	 */
 	public DatosJugador(Jugador j) {
 		super();
+		abandono = false;
 		setBackground(Color.WHITE);
 		this.jugador = j;
 		setLayout(null);
@@ -45,7 +47,7 @@ public class DatosJugador extends JPanel {
 		nombre = new JLabel(j.getNombre());
 		nombre.setBackground(SystemColor.info);
 		nombre.setHorizontalAlignment(SwingConstants.CENTER);
-		nombre.setBounds(27, 24, 112, 14);
+		nombre.setBounds(27, 24, 155, 14);
 
 		add(nombre);
 
@@ -125,30 +127,37 @@ public class DatosJugador extends JPanel {
 	}
 
 	public void actualizar(Jugador ac) {
-		if (jugador == null)
-			return;
-		try {
-			if (ac == jugador) {
-				this.carta1.setImg(ImageIO.read(new File(jugador.getCarta().getImagePath())));
-				this.rendirse.setVisible(true);
-			} else {
-				this.carta1.setImg(ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png")));
-				this.rendirse.setVisible(false);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		carta2.setImg(null);
-		puntaje.setText(jugador.getPuntaje() + " Puntos");
-		descarte.setText((jugador.getCantDescartadas() + " cartas jugadas"));
+		if (!abandono) {
 
-		// UNA FORMA MUY BRUSCA DE MARCAR QUE ESTA ELIMINADO
-		if (!jugador.juegaRonda())
+			try {
+				if (ac == jugador) {
+					this.carta1.setImg(ImageIO.read(new File(jugador.getCarta().getImagePath())));
+					this.rendirse.setVisible(true);
+				} else {
+					this.carta1.setImg(ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png")));
+					this.rendirse.setVisible(false);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			carta2.setImg(null);
+			puntaje.setText(jugador.getPuntaje() + " Puntos");
+			descarte.setText((jugador.getCantDescartadas() + " cartas jugadas"));
+
+			// UNA FORMA MUY BRUSCA DE MARCAR QUE ESTA ELIMINADO
+			if (!jugador.juegaRonda())
+				this.nombre.setForeground(Color.red);
+			else if (jugador.isProtegido())
+				this.nombre.setForeground(Color.green);
+			else
+				this.nombre.setForeground(Color.black);
+		} else {
+			this.nombre.setText(jugador.getNombre() + " - Desconectado");
 			this.nombre.setForeground(Color.red);
-		else if (jugador.isProtegido())
-			this.nombre.setForeground(Color.green);
-		else
-			this.nombre.setForeground(Color.black);
+			this.carta1.setImg(null);
+			this.carta2.setImg(null);
+			this.rendirse.setVisible(false);
+		}
 		this.repaint();
 	}
 
@@ -182,5 +191,9 @@ public class DatosJugador extends JPanel {
 			e.printStackTrace();
 		}
 		carta1.repaint();
+	}
+
+	public void setNull() {
+		this.abandono = true;
 	}
 }

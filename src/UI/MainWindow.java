@@ -201,8 +201,12 @@ public class MainWindow extends JPanel {
 			if (i == sala.getJugadores().size())
 				i = 0;
 		}
-		CambioTurno dialog = new CambioTurno(sala.getJugadorPorIndice(i).getNombre());
+		Dialogo dialog = new Dialogo("El siguiente turno es del jugador "+sala.getJugadorPorIndice(i).getNombre());
 		dialog.setVisible(true);
 		dialog.pasar();
+	}
+	
+	public void eliminar(int indice) {
+		datosJugadores[indice].setNull();
 	}
 }

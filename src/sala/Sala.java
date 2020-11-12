@@ -66,7 +66,7 @@ public class Sala {
 			if (i >= jugadores.size())
 				i = 0;
 			jugador = jugadores.get(i);
-			if (jugador.juegaRonda()) {
+			if (jugador != null && jugador.juegaRonda()) {
 				jugador.jugar(window);
 				window.cambiarTurno();
 				window.actualizar(i);
@@ -83,26 +83,29 @@ public class Sala {
 
 	private void rehabilitarJugadores() {
 		for (Jugador jugador : jugadores) {
-			jugador.entrarEnRonda();
+			if (jugador != null)
+				jugador.entrarEnRonda();
 		}
 	}
 
 	public void repartir() {
 		for (Jugador jugador : jugadores) {
-			jugador.setCarta(mazo.getCarta());
+			if (jugador != null)
+				jugador.setCarta(mazo.getCarta());
 		}
 	}
 
 	public void iniciarCantDescartadas() {
 		for (Jugador jugador : jugadores) {
-			jugador.setCantDescartadas(0);
+			if (jugador != null)
+				jugador.setCantDescartadas(0);
 		}
 	}
 
 	public int jugadoresEnRonda() {
 		int cont = 0;
 		for (Jugador jugador : jugadores) {
-			if (jugador!=null && jugador.juegaRonda())
+			if (jugador != null && jugador.juegaRonda())
 				cont++;
 		}
 		return cont;
@@ -110,25 +113,29 @@ public class Sala {
 
 	public Jugador buscarGanadorRonda() {
 
-		Jugador ganador = jugadores.getFirst();
+		Jugador ganador = null;
 
 		for (Jugador jugador : jugadores) {
 			/*
 			 * agrego la validacion de que este jugador no este descalificado, ya que si fue
 			 * descaliicado no deberia si quiera compararse contra el actual ganador.
 			 */
-			if (jugador.juegaRonda()) {
+			if (jugador != null && jugador.juegaRonda()) {
 
 				/*
 				 * Es posible que el jugador que elegí como ganador inicialmente este
 				 * descalificado por lo que pregunto esto para evitar un posible bug, donde el
 				 * primero sea el ganador pero haya sido descalificado.
 				 */
-				if (jugador.getCarta().getFuerza() > ganador.getCarta().getFuerza() || !ganador.juegaRonda())
+				if (ganador == null)
 					ganador = jugador;
-				else if (jugador.getCarta().getFuerza() == ganador.getCarta().getFuerza())
-					if (jugador.getCantDescartadas() > ganador.getCantDescartadas())
+				else {
+					if (jugador.getCarta().getFuerza() > ganador.getCarta().getFuerza() || !ganador.juegaRonda())
 						ganador = jugador;
+					else if (jugador.getCarta().getFuerza() == ganador.getCarta().getFuerza())
+						if (jugador.getCantDescartadas() > ganador.getCantDescartadas())
+							ganador = jugador;
+				}
 			}
 
 		}
@@ -137,7 +144,9 @@ public class Sala {
 
 	public void generarMazo() {
 		for (Iterator<Jugador> iterator = jugadores.iterator(); iterator.hasNext();) {
-			iterator.next().setCarta(null);
+			Jugador actual = iterator.next();
+			if (actual != null)
+				actual.setCarta(null);
 		}
 		mazo = new Mazo();
 		mazo.mezclar();
@@ -149,7 +158,8 @@ public class Sala {
 
 	public boolean buscarGanador() {
 		for (Iterator<Jugador> iterator = jugadores.iterator(); iterator.hasNext();) {
-			if (iterator.next().getPuntaje() >= simbParaGanar)
+			Jugador actual = iterator.next();
+			if (actual != null && actual.getPuntaje() >= simbParaGanar)
 				return true;
 		}
 		return false;
@@ -169,9 +179,11 @@ public class Sala {
 	}
 
 	public void eliminar(Jugador jugador) {
-		for(int i=0;i<jugadores.size();i++)
-			if(jugadores.get(i)==jugador)
+		for (int i = 0; i < jugadores.size(); i++)
+			if (jugadores.get(i) == jugador) {
 				jugadores.set(i, null);
+				window.eliminar(i);
+			}
 	}
 
 	public int getSimbParaGanar() {

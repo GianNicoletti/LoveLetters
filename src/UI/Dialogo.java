@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class CambioTurno extends JDialog {
+public class Dialogo extends JDialog {
 
 	/**
 	 * 
@@ -29,11 +29,11 @@ public class CambioTurno extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public CambioTurno(String proximo) {
+	public Dialogo(String mensaje) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent arg0) {
-				debeContinuar=false;
+				debeContinuar = false;
 			}
 		});
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -43,7 +43,7 @@ public class CambioTurno extends JDialog {
 		texto.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(texto, BorderLayout.CENTER);
 		{
-			JLabel lblNewLabel = new JLabel("El proximo turno es del jugador " + proximo);
+			JLabel lblNewLabel = new JLabel(mensaje);
 			texto.add(lblNewLabel);
 		}
 		{
