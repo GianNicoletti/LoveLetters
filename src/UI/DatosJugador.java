@@ -30,6 +30,7 @@ public class DatosJugador extends JPanel {
 	private boolean debeElegirCarta;
 	private JLabel puntaje;
 	private JLabel descarte;
+	private JLabel nombre;
 
 	/**
 	 * Create the panel.
@@ -40,10 +41,11 @@ public class DatosJugador extends JPanel {
 		this.jugador = j;
 		setLayout(null);
 
-		JLabel nombre = new JLabel(j.getNombre());
+		nombre = new JLabel(j.getNombre());
 		nombre.setBackground(SystemColor.info);
 		nombre.setHorizontalAlignment(SwingConstants.CENTER);
-		nombre.setBounds(193, 0, 112, 14);
+		nombre.setBounds(27, 24, 112, 14);
+		
 		add(nombre);
 
 		carta1 = new PanelCarta();
@@ -77,12 +79,12 @@ public class DatosJugador extends JPanel {
 		carta2.setLayout(null);
 
 		puntaje = new JLabel("New label");
-		puntaje.setBounds(297, 25, 131, 30);
+		puntaje.setBounds(372, 16, 83, 30);
 		puntaje.setText(jugador.getPuntaje() + " Puntos");
 		add(puntaje);
 
 		descarte = new JLabel(jugador.getCantDescartadas() + " cartas jugadas");
-		descarte.setBounds(27, 24, 131, 14);
+		descarte.setBounds(192, 24, 131, 14);
 		add(descarte);
 	}
 
@@ -93,13 +95,7 @@ public class DatosJugador extends JPanel {
 		// Dimension currentDimension = getContentPane().getSize();
 		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
 		// HEIGHT);
-		if (!jugador.juegaRonda()) {
-			g2.setColor(Color.red);
-			g2.drawString("Eliminado", 0, 20);
-		} else if (jugador.isProtegido()) {
-			g2.setColor(Color.white);
-			g2.drawString("Protegido", 0, 20);
-		}
+		
 		int i = 0;
 		for (Carta carta : jugador.getDescartadas()) {
 			BufferedImage image;
@@ -134,12 +130,12 @@ public class DatosJugador extends JPanel {
 
 		// UNA FORMA MUY BRUSCA DE MARCAR QUE ESTA ELIMINADO
 		if (!jugador.juegaRonda())
-			setBackground(Color.LIGHT_GRAY);
+			this.nombre.setForeground(Color.red);
 		else if (jugador.isProtegido())
-			setBackground(Color.green);
+			this.nombre.setForeground(Color.green);
 		else
-			setBackground(new Color(0, 0, 0, 1));
-		this.repaint();
+			this.nombre.setForeground(Color.black);
+		this.repaint();			
 	}
 
 	public void actualizarCarta2(Carta carta2) {
