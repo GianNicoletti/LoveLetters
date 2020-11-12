@@ -31,6 +31,7 @@ public class DatosJugador extends JPanel {
 	private JLabel puntaje;
 	private JLabel descarte;
 	private JLabel nombre;
+	private JButton rendirse;
 
 	/**
 	 * Create the panel.
@@ -45,7 +46,7 @@ public class DatosJugador extends JPanel {
 		nombre.setBackground(SystemColor.info);
 		nombre.setHorizontalAlignment(SwingConstants.CENTER);
 		nombre.setBounds(27, 24, 112, 14);
-		
+
 		add(nombre);
 
 		carta1 = new PanelCarta();
@@ -86,6 +87,17 @@ public class DatosJugador extends JPanel {
 		descarte = new JLabel(jugador.getCantDescartadas() + " cartas jugadas");
 		descarte.setBounds(192, 24, 131, 14);
 		add(descarte);
+
+		rendirse = new JButton("Rendirse");
+		rendirse.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				cartaElegida = 3;
+				debeElegirCarta = false;
+			}
+		});
+		rendirse.setBounds(76, 320, 330, 23);
+		add(rendirse);
 	}
 
 	@Override
@@ -95,7 +107,7 @@ public class DatosJugador extends JPanel {
 		// Dimension currentDimension = getContentPane().getSize();
 		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
 		// HEIGHT);
-		
+
 		int i = 0;
 		for (Carta carta : jugador.getDescartadas()) {
 			BufferedImage image;
@@ -118,8 +130,10 @@ public class DatosJugador extends JPanel {
 		try {
 			if (ac == jugador) {
 				this.carta1.setImg(ImageIO.read(new File(jugador.getCarta().getImagePath())));
+				this.rendirse.setVisible(true);
 			} else {
 				this.carta1.setImg(ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png")));
+				this.rendirse.setVisible(false);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -135,7 +149,7 @@ public class DatosJugador extends JPanel {
 			this.nombre.setForeground(Color.green);
 		else
 			this.nombre.setForeground(Color.black);
-		this.repaint();			
+		this.repaint();
 	}
 
 	public void actualizarCarta2(Carta carta2) {

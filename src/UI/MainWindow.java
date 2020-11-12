@@ -57,32 +57,33 @@ public class MainWindow extends JPanel {
 	 */
 	public MainWindow(Sala sala) {
 		try {
-			
+
 			imgAtras = ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png"));
 			background = ImageIO.read(new File("Assets/imgs/" + "Fondo" + ".jpg"));
-			
-			
+
 			// Determino las dimensiones del monitor.
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			double xPantalla = screenSize.getWidth();
 			double yPantalla = screenSize.getHeight();
-			
+
 			double xImagen = background.getWidth();
 			double yImagen = background.getHeight();
-			
-			// Obtengo el porcentaje que debo agrandar el fondo de acuerdo al tamaño del monito
-			double xFactor = xPantalla/xImagen;
-			double yFactor = yPantalla/yImagen;
-			
-			xImagen *=  xFactor;
-			yImagen *=  yFactor;
-			
-			// Aplico una transformacion con eso factores a la imagen del fondo para que se estire.
-			BufferedImage scaledImage = new BufferedImage( (int) xImagen , (int) yImagen,  BufferedImage.TYPE_INT_ARGB);
+
+			// Obtengo el porcentaje que debo agrandar el fondo de acuerdo al tamaño del
+			// monito
+			double xFactor = xPantalla / xImagen;
+			double yFactor = yPantalla / yImagen;
+
+			xImagen *= xFactor;
+			yImagen *= yFactor;
+
+			// Aplico una transformacion con eso factores a la imagen del fondo para que se
+			// estire.
+			BufferedImage scaledImage = new BufferedImage((int) xImagen, (int) yImagen, BufferedImage.TYPE_INT_ARGB);
 			AffineTransform at = AffineTransform.getScaleInstance(xFactor, yFactor);
 			AffineTransformOp ato = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
 			background = ato.filter(background, scaledImage);
-						
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -93,13 +94,11 @@ public class MainWindow extends JPanel {
 
 		setLayout(null);
 
-		JLabel puntos = new JLabel("Se necesitan "+ sala.getSimbParaGanar() + " simbolos para ganar.");
+		JLabel puntos = new JLabel("Se necesitan " + sala.getSimbParaGanar() + " simbolos para ganar.");
 		puntos.setBounds(230, 5, 210, 16);
 
-		DatosJugador a = new DatosJugador(sala.getJugadores().get(1));
-
 		datosJugadores = new DatosJugador[sala.getJugadores().size()];
-		
+
 		for (int i = 0; i < datosJugadores.length; i++) {
 			datosJugadores[i] = new DatosJugador(sala.getJugadores().get(i));
 			datosJugadores[i].setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 500, 500);
@@ -107,9 +106,8 @@ public class MainWindow extends JPanel {
 			add(datosJugadores[i]);
 		}
 
-		add(a);
 		add(puntos);
-		
+
 	}
 
 	@Override
@@ -153,8 +151,8 @@ public class MainWindow extends JPanel {
 		int[] posiciones = { 500, 500, 35, 300, 500, 50, 1300, 300 };
 		JButton boton;
 		for (int i = 0; i < sala.getJugadores().size(); i++) {
-			if ((i != jugadorActual || allowSelf) && sala.getJugadorPorIndice(i).juegaRonda()
-					&& !sala.getJugadorPorIndice(i).isProtegido()) {
+			if ((i != jugadorActual || allowSelf) && sala.getJugadorPorIndice(i) != null
+					&& sala.getJugadorPorIndice(i).juegaRonda() && !sala.getJugadorPorIndice(i).isProtegido()) {
 				boton = new JButton("Seleccionar");
 				boton.setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 89, 23);
 				botones[j] = boton;
@@ -197,7 +195,8 @@ public class MainWindow extends JPanel {
 		int i = jugadorActual + 1;
 		if (i == sala.getJugadores().size())
 			i = 0;
-		while (!sala.getJugadorPorIndice(i).juegaRonda()) {
+		while (sala.getJugadorPorIndice(i) == null
+				|| (sala.getJugadorPorIndice(i) == null && !sala.getJugadorPorIndice(i).juegaRonda())) {
 			i++;
 			if (i == sala.getJugadores().size())
 				i = 0;

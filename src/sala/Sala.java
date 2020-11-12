@@ -102,7 +102,7 @@ public class Sala {
 	public int jugadoresEnRonda() {
 		int cont = 0;
 		for (Jugador jugador : jugadores) {
-			if (jugador.juegaRonda())
+			if (jugador!=null && jugador.juegaRonda())
 				cont++;
 		}
 		return cont;
@@ -169,7 +169,9 @@ public class Sala {
 	}
 
 	public void eliminar(Jugador jugador) {
-		jugadores.remove(jugador);
+		for(int i=0;i<jugadores.size();i++)
+			if(jugadores.get(i)==jugador)
+				jugadores.set(i, null);
 	}
 
 	public int getSimbParaGanar() {
