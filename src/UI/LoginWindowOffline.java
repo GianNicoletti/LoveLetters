@@ -26,14 +26,9 @@ public class LoginWindowOffline extends JFrame {
 	private JTextField jugador2Field;
 	private JTextField jugador3Field;
 	private JTextField jugador4Field;
-
-	/**
-	 * Launch the application.
-	 */
-
-	/**
-	 * Create the frame.
-	 */
+	private Sala sala;
+	private boolean debeCrear;
+	
 	public LoginWindowOffline() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 341, 239);
