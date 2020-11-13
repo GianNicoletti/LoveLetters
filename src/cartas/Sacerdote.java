@@ -12,9 +12,7 @@ public class Sacerdote extends Carta {
 	@Override
 	public void descartar(Jugador jugador) {
 		super.descartar(jugador);
-		int indice = jugador.seleccionarIndiceOtroJugador();
-		if (indice != -1)
-			jugador.verCarta(indice);
+		jugador.seleccionarOtroJugador(false, true);
 		// obtenerCarta(otro);
 
 	}

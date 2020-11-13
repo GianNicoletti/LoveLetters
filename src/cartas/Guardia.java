@@ -13,12 +13,10 @@ public class Guardia extends Carta {
 	@Override
 	public void descartar(Jugador jugador) {
 		super.descartar(jugador);
-		Jugador otro = jugador.seleccionarOtroJugador(false);
+		Jugador otro = jugador.seleccionarOtroJugador(false,false);
 		if(otro==null)
 			return;
-		System.out.println("Escribe el nombre de un tipo de carta (Excepto Guardia):");
 		String nombreCarta = jugador.adivinarCarta();
-		System.out.println("Nombre :" + nombreCarta);
 		verificarCarta(otro, nombreCarta);
 	}
 

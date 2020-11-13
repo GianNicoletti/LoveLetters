@@ -11,7 +11,7 @@ public class Principe extends Carta {
 	@Override
 	public void descartar(Jugador jugador) {
 		super.descartar(jugador);
-		Jugador otro = jugador.seleccionarOtroJugador(true);
+		Jugador otro = jugador.seleccionarOtroJugador(true,false);
 		if(otro==null)
 			return;
 		cambiarCarta(otro);

@@ -88,7 +88,7 @@ public class Jugador {
 		}
 	}
 
-	public Jugador seleccionarOtroJugador(boolean allowSelf) {
+	public Jugador seleccionarOtroJugador(boolean allowSelf, boolean verCarta) {
 		Jugador otro;
 		System.out.println("Elige un jugador (escribe el numero del jugador): ");
 		// try (Scanner teclado = new Scanner(System.in)) {
@@ -97,21 +97,14 @@ public class Jugador {
 		int i = window.elegirJugador(allowSelf);
 		if (i == -1)
 			return null;
+		if(verCarta)
+			verCarta(i);
 		otro = sala.getJugadorPorIndice(i);
 		System.out.println("Elegido: " + otro.getNombre());
 		return otro;
 		// }
 	}
 
-	public int seleccionarIndiceOtroJugador() {
-		Jugador otro;
-		System.out.println("Elige un jugador (escribe el numero del jugador): ");
-		// try (Scanner teclado = new Scanner(System.in)) {
-		// sala.listarJugadores();
-		// int i = teclado.nextInt();
-		return window.elegirJugador(false);
-		// }
-	}
 
 	public void verCarta(int indiceJugador) {
 		window.verCarta(indiceJugador);

@@ -11,7 +11,7 @@ public class Baron extends Carta {
 	@Override
 	public void descartar(Jugador jugador) {
 		super.descartar(jugador);
-		Jugador otro = jugador.seleccionarOtroJugador(false);
+		Jugador otro = jugador.seleccionarOtroJugador(false,true);
 		if(otro==null)
 			return;
 		eliminarCorrespondiente(jugador, otro);
