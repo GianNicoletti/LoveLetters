@@ -30,22 +30,29 @@ public class Dialogo extends JDialog {
 	 * Create the dialog.
 	 */
 	public Dialogo(String mensaje) {
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent arg0) {
 				debeContinuar = false;
 			}
 		});
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 465, 139);
+		
 		getContentPane().setLayout(new BorderLayout());
+		
 		texto.setLayout(new FlowLayout());
 		texto.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		getContentPane().add(texto, BorderLayout.CENTER);
+		
 		{
 			JLabel lblNewLabel = new JLabel(mensaje);
 			texto.add(lblNewLabel);
 		}
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -63,6 +70,11 @@ public class Dialogo extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 		}
+		
+		setVisible(true);
+		toFront();
+		requestFocus();
+		
 	}
 
 	public void pasar() {
