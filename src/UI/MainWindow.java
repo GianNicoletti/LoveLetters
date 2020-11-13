@@ -212,7 +212,7 @@ public class MainWindow extends JPanel {
 				i = 0;
 		}
 		this.invisivilizar();
-		crearDialogo("El siguiente turno es del jugador " + sala.getJugadorPorIndice(i).getNombre());
+		crearDialogo("Es el turno de" + sala.getJugadorPorIndice(i).getNombre());
 	}
 
 	public void crearDialogo(String mensaje) {
