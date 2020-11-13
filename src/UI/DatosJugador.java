@@ -18,6 +18,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.SwingConstants;
 import java.awt.SystemColor;
 
@@ -98,7 +100,7 @@ public class DatosJugador extends JPanel {
 				debeElegirCarta = false;
 			}
 		});
-		rendirse.setBounds(76, 320, 330, 23);
+		rendirse.setBounds(76, 311, 330, 23);
 		add(rendirse);
 		rendirse.setVisible(false);
 	}
@@ -106,6 +108,7 @@ public class DatosJugador extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Dimension dimension = getSize();
 		Graphics2D g2 = (Graphics2D) g;
 		// Dimension currentDimension = getContentPane().getSize();
 		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
@@ -115,8 +118,8 @@ public class DatosJugador extends JPanel {
 			BufferedImage image;
 			try {
 				image = ImageIO.read(new File(carta.getImagePath()));
-				BufferedImage img = new BufferedImage(10, 10, image.getType());
-				g2.drawImage(image, null, 60 * i, 350);
+				g2.drawImage(image, (int) (dimension.width * 0.075 * i), (int) (dimension.height * 0.8),
+						(int) (dimension.width * 0.25), (int) (dimension.height * 0.25), null);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

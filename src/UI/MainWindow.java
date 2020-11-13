@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -56,15 +57,15 @@ public class MainWindow extends JPanel {
 	 * Create the frame.
 	 */
 	public MainWindow(Sala sala) {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double xPantalla = screenSize.getWidth();
+		double yPantalla = screenSize.getHeight();
 		try {
 
 			imgAtras = ImageIO.read(new File("Assets/imgs/" + "Atras" + ".png"));
 			background = ImageIO.read(new File("Assets/imgs/" + "Fondo" + ".jpg"));
 
 			// Determino las dimensiones del monitor.
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			double xPantalla = screenSize.getWidth();
-			double yPantalla = screenSize.getHeight();
 
 			double xImagen = background.getWidth();
 			double yImagen = background.getHeight();
@@ -90,7 +91,9 @@ public class MainWindow extends JPanel {
 
 		this.sala = sala;
 
-		int[] posiciones = { 500, 500, 35, 300, 500, 50, 1300, 300 };
+		int[] posiciones = { (int) (0.5 * xPantalla), (int) (0.8 * yPantalla), (int) (0.15 * xPantalla),
+				(int) (0.5 * yPantalla), (int) (0.5 * xPantalla), (int) (0.25 * yPantalla), (int) (0.85 * xPantalla),
+				(int) (yPantalla * 0.5) };
 
 		setLayout(null);
 
@@ -98,10 +101,12 @@ public class MainWindow extends JPanel {
 		puntos.setBounds(230, 5, 210, 16);
 
 		datosJugadores = new DatosJugador[sala.getJugadores().size()];
-
+		int alto = (int) (yPantalla * 0.40);
+		int ancho = (int) (xPantalla * 0.25);
 		for (int i = 0; i < datosJugadores.length; i++) {
 			datosJugadores[i] = new DatosJugador(sala.getJugadores().get(i));
-			datosJugadores[i].setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 500, 500);
+			datosJugadores[i].setBounds(posiciones[i * 2] - (ancho / 2), posiciones[i * 2 + 1] - (alto / 2), ancho,
+					alto);
 			datosJugadores[i].setBackground(new Color(0, 0, 0, 1));
 			add(datosJugadores[i]);
 		}
@@ -148,20 +153,19 @@ public class MainWindow extends JPanel {
 	}
 
 	public int elegirJugador(boolean allowSelf) {
-
 		debeElegirJugador = true;
 		int j = 0;
 		int cant = sala.jugadoresEnRonda();
 		if (!allowSelf)
 			cant--;
 		JButton[] botones = new JButton[cant];
-		int[] posiciones = { 500, 500, 35, 300, 500, 50, 1300, 300 };
 		JButton boton;
 		for (int i = 0; i < sala.getJugadores().size(); i++) {
 			if ((i != jugadorActual || allowSelf) && sala.getJugadorPorIndice(i) != null
 					&& sala.getJugadorPorIndice(i).juegaRonda() && !sala.getJugadorPorIndice(i).isProtegido()) {
+				Rectangle pos = datosJugadores[i].getBounds();
 				boton = new JButton("Seleccionar");
-				boton.setBounds(posiciones[i * 2], posiciones[i * 2 + 1], 89, 23);
+				boton.setBounds(pos.x, pos.y, 89, 23);
 				botones[j] = boton;
 				final int index = i;
 				botones[j].addMouseListener(new MouseAdapter() {

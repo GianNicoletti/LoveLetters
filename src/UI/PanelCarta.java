@@ -1,5 +1,6 @@
 package UI;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -21,10 +22,10 @@ public class PanelCarta extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 
-		// Dimension currentDimension = getContentPane().getSize();
+		Dimension currentDimension = getSize();
 		// g2.scale(currentDimension.getWidth() / WIDTH, currentDimension.getHeight() /
 		// HEIGHT);
-		g2.drawImage(img, null, 0,0);
+		g2.drawImage(img,0,0,currentDimension.width,currentDimension.height,null);
 	}
 
 	public void setImg(BufferedImage img) {
